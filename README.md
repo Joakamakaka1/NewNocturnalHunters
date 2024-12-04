@@ -21,6 +21,7 @@ Contiene la información básica de los usuarios registrados en el sistema.
 - **Nombre**: Cadena de texto, no nulo, único.
 - **Email**: Cadena de texto, no nulo, único.
 - **Contraseña**: Cadena de texto, no nulo.
+- **Rol**: Cadena que define el rol del cliente en el sistema
 
 ### 2. Tabla de **Partidas**
 Almacena los detalles de las partidas jugadas por los clientes.
@@ -39,6 +40,7 @@ Contiene los datos de los personajes disponibles en el juego, cada uno asociado 
 - **Estadísticas**: Datos numéricos que indican las características del personaje (por ejemplo, fuerza, agilidad).
 - **Tipo**: Enum con tres posibles valores: `básico`, `intermedio`, `boss`.
 - **ClienteID**: Clave foránea que se refiere al cliente que posee el personaje (relación 1:N con la tabla Clientes).
+- **Imagen**: Cadena de texto (ruta de archivo) para almacenar la imagen del enemigo
 
 ### 4. Tabla de **Enemigos**
 Almacena los datos de los enemigos del juego.
@@ -47,6 +49,7 @@ Almacena los datos de los enemigos del juego.
 - **Nombre**: Cadena de texto, no nulo, único.
 - **Estadísticas**: Datos numéricos que indican las características del enemigo.
 - **Tipo**: Enum con tres posibles valores: `básico`, `intermedio`, `boss`.
+- **Imagen**: Cadena de texto (ruta de archivo) para almacenar la imagen del enemigo
 
 ## Relaciones entre Tablas
 
