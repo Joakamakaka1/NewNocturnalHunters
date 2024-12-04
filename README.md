@@ -6,7 +6,7 @@ Este proyecto consiste en el desarrollo de una API Rest utilizando **Spring Boot
 
 ## Objetivo del Proyecto
 
-El objetivo principal de esta API es proporcionar una plataforma eficiente para gestionar los datos de los jugadores (clientes), sus partidas, y la consulta de personajes y enemigos del juego. A través de una arquitectura RESTful, los usuarios pueden interactuar con el sistema de manera sencilla y segura.
+El objetivo principal de esta API es proporcionar una plataforma eficiente para gestionar los datos de los jugadores (clientes), sus partidas, y la consulta de personajes y enemigos del juego. A través de una arquitectura REST, los usuarios pueden interactuar con el sistema de manera sencilla y segura.
 
 ## Justificación del Proyecto
 
