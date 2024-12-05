@@ -21,9 +21,9 @@ Este sistema es esencial para los desarrolladores de videojuegos que necesitan a
 | Atributo   | Tipo          | Descripción                                                |
 |------------|---------------|------------------------------------------------------------|
 | **ID**     | Long           | Clave primaria, autoincremental.                           |
-| **Nombre** | VARCHAR(255)   | Nombre del cliente (único y no nulo).                      |
+| **Username** | VARCHAR(255)   | Nombre del cliente (único y no nulo).                      |
 | **Email**  | VARCHAR(255)   | Correo electrónico del cliente (único y no nulo).           |
-| **Contraseña** | VARCHAR(255) | Contraseña en texto plano (sería recomendable almacenar un hash). |
+| **Password** | VARCHAR(255) | Contraseña en texto plano (sería recomendable almacenar un hash). |
 | **Rol**    | VARCHAR(50)    | Rol del cliente (por ejemplo: `USER`, `ADMIN`).             |
 
 ### 2. **Partidas**
