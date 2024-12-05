@@ -12,6 +12,8 @@ El objetivo principal de esta API es proporcionar una plataforma eficiente para 
 
 Este sistema es esencial para los desarrolladores de videojuegos que necesitan almacenar y gestionar datos relacionados con los usuarios, el progreso en sus partidas, así como las características de los personajes y enemigos del juego. Implementando **Spring Boot** y **JWT**, garantizamos una solución robusta, escalable y segura. Además, **Hibernate** facilita la interacción eficiente con la base de datos para la persistencia de datos, optimizando la gestión de relaciones.
 
+---
+
 ## Tablas Involucradas
 
 ### 1. Tabla de **Clientes**
@@ -57,19 +59,7 @@ Almacena los datos de los enemigos del juego.
   
 - **Clientes a Personajes**: Un cliente puede tener varios personajes (relación **1:N**). La tabla **Personajes** contiene una clave foránea `clienteID` que hace referencia a la tabla **Clientes**.
 
-# Proyecto API REST - Gestión de Clientes y Partidas
-
-## Descripción del Proyecto
-
-Este proyecto consiste en el desarrollo de una API REST utilizando **Spring Boot**, **JWT** y **Hibernate**. La API permite gestionar los datos de los clientes y sus partidas, así como consultar información sobre personajes y enemigos en un juego. Esta solución proporciona una plataforma eficiente y segura para gestionar la interacción con los usuarios a través de autenticación basada en **JWT**.
-
-## Objetivo del Proyecto
-
-El objetivo principal de esta API es proporcionar una plataforma eficiente para gestionar los datos de los jugadores (clientes), sus partidas, y la consulta de personajes y enemigos del juego. A través de una arquitectura REST, los usuarios pueden interactuar con el sistema de manera sencilla y segura.
-
-## Justificación del Proyecto
-
-Este sistema es esencial para los desarrolladores de videojuegos que necesitan almacenar y gestionar datos relacionados con los usuarios, el progreso en sus partidas, así como las características de los personajes y enemigos del juego. Implementando **Spring Boot** y **JWT**, garantizamos una solución robusta, escalable y segura. Además, **Hibernate** facilita la interacción eficiente con la base de datos para la persistencia de datos, optimizando la gestión de relaciones.
+---
 
 ## Endpoints
 
