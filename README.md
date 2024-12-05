@@ -79,7 +79,6 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 - **POST /partidas**: Crea una nueva partida. Requiere los detalles de la partida y el ID del cliente. Solo accesible para administradores, ya que el cliente solo puede gestionar sus propias partidas.
 - **GET /partidas**: Recupera todas las partidas jugadas. Solo accesible para administradores.
 - **GET /partidas/{clienteId/username}**: Obtiene todas las partidas asociadas a un cliente específico, usando el ID/username del cliente. Los clientes solo pueden acceder a sus propias partidas.
-- **GET /partidas/{id}**: Obtiene los detalles de una partida específica por su ID. Solo los administradores pueden acceder a cualquier partida, mientras que los clientes solo pueden acceder a las partidas asociadas a su ID.
 - **PUT /partidas/{id}**: Actualiza los detalles de una partida. Solo accesible por administradores.
 - **DELETE /partidas/{id}**: Elimina una partida por su ID. Solo accesible por administradores.
 
