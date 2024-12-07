@@ -1,4 +1,9 @@
 package com.newnocturnalhunter.api_rest.repository;
 
-public interface PartidasRepository {
+import com.newnocturnalhunter.api_rest.model.Partidas;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PartidasRepository extends JpaRepository<Partidas, Integer> {
 }

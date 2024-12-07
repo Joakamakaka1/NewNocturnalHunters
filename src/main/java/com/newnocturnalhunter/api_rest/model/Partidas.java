@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

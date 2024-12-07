@@ -51,17 +51,5 @@ public class RestHandlerException {
         return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
     }
 
-    @ExceptionHandler(MethodNotAllowedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    @ResponseBody
-    public ErrorMsg methodNotAllowedException(HttpServletRequest req, MethodNotAllowedException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
 
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorMsg validationException(HttpServletRequest req, BadRequestException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
 }
