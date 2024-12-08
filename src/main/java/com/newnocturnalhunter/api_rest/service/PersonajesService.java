@@ -4,13 +4,13 @@ import com.newnocturnalhunter.api_rest.dto.PersonajesDTO;
 import com.newnocturnalhunter.api_rest.exceptions.BadRequestException;
 import com.newnocturnalhunter.api_rest.exceptions.GenericException;
 import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
-import com.newnocturnalhunter.api_rest.exceptions.ValidationException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.model.Personajes;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
 import com.newnocturnalhunter.api_rest.repository.PersonajesRepository;
 import com.newnocturnalhunter.api_rest.utils.Mapper;
 import com.newnocturnalhunter.api_rest.utils.StringToLong;
+import com.newnocturnalhunter.api_rest.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,8 @@ public class PersonajesService {
     private StringToLong stringToLong;
     @Autowired
     private Mapper mapper;
+    @Autowired
+    private Validator validator;
 
     public List<PersonajesDTO> getAllPersonajes() {
         try {
@@ -64,7 +66,11 @@ public class PersonajesService {
     public PersonajesDTO createPersonaje(PersonajesDTO personajesDTO) {
         try {
             if (personajesDTO == null) {
-                throw new ValidationException("El personaje no puede estar vacío.");
+                throw new BadRequestException("El personaje no puede estar vacío.");
+            }
+
+            if(!validator.validateTipoPersonaje(personajesDTO.getTipo())) {
+                throw new BadRequestException("El tipo de personaje no es válido.");
             }
 
             Cliente cliente = clienteRepository.findById(personajesDTO.getId_cliente())
@@ -74,7 +80,7 @@ public class PersonajesService {
             Personajes personaje = mapper.mapToPersonaje(personajesDTO, cliente);
             personajesRepository.save(personaje);
             return mapper.mapToPersonajesDTO(personaje);
-        } catch (ValidationException | NotFoundException ex) {
+        } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al crear el personaje." + ex.getMessage());
@@ -88,7 +94,11 @@ public class PersonajesService {
             }
 
             if (personajesDTO == null) {
-                throw new ValidationException("El personaje no puede estar vacío.");
+                throw new BadRequestException("El personaje no puede estar vacío.");
+            }
+
+            if(!validator.validateTipoPersonaje(personajesDTO.getTipo())) {
+                throw new BadRequestException("El tipo de personaje no es válido.");
             }
 
             Cliente cliente = clienteRepository.findById(personajesDTO.getId_cliente())
@@ -102,7 +112,7 @@ public class PersonajesService {
             personaje.setId(personajeExistente.getId());
             personajesRepository.save(personaje);
             return mapper.mapToPersonajesDTO(personaje);
-        } catch (BadRequestException | NotFoundException | ValidationException ex) {
+        } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al actualizar el personaje." + ex.getMessage());

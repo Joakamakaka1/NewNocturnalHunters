@@ -4,13 +4,13 @@ import com.newnocturnalhunter.api_rest.dto.PartidasDTO;
 import com.newnocturnalhunter.api_rest.exceptions.BadRequestException;
 import com.newnocturnalhunter.api_rest.exceptions.GenericException;
 import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
-import com.newnocturnalhunter.api_rest.exceptions.ValidationException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.model.Partidas;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
 import com.newnocturnalhunter.api_rest.repository.PartidasRepository;
 import com.newnocturnalhunter.api_rest.utils.Mapper;
 import com.newnocturnalhunter.api_rest.utils.StringToLong;
+import com.newnocturnalhunter.api_rest.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,8 @@ public class PartidasService {
     private Mapper mapper;
     @Autowired
     private StringToLong stringToLong;
+    @Autowired
+    private Validator validator;
 
     public List<PartidasDTO> getAllPartidas() {
         try {
@@ -64,7 +66,11 @@ public class PartidasService {
     public PartidasDTO createPartida(PartidasDTO partidasDTO) {
         try {
             if (partidasDTO == null) {
-                throw new ValidationException("La partida no puede estar vacía.");
+                throw new BadRequestException("La partida no puede estar vacía.");
+            }
+
+            if (!validator.validateFecha(partidasDTO.getFechaInicio())) {
+                throw new BadRequestException("La fecha de inicio no tiene un formato válido. El formato debe ser yyyy-MM-dd HH:mm:ss");
             }
 
             Cliente cliente = clienteRepository.findById(partidasDTO.getId_cliente())
@@ -74,7 +80,7 @@ public class PartidasService {
             Partidas partida = mapper.mapToPartidas(partidasDTO, cliente);
             partidasRepository.save(partida);
             return mapper.mapToPartidasDTO(partida);
-        } catch (ValidationException | NotFoundException ex) {
+        } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al obtener las partidas." + ex.getMessage());
@@ -88,7 +94,11 @@ public class PartidasService {
             }
 
             if (partidasDTO == null) {
-                throw new ValidationException("La partida no puede estar vacía.");
+                throw new BadRequestException("La partida no puede estar vacía.");
+            }
+
+            if (!validator.validateFecha(partidasDTO.getFechaInicio())) {
+                throw new BadRequestException("La fecha de inicio no tiene un formato válido. El formato debe ser yyyy-MM-dd HH:mm:ss");
             }
 
             Cliente cliente = clienteRepository.findById(partidasDTO.getId_cliente())
@@ -102,7 +112,7 @@ public class PartidasService {
             partida.setId(partidaExistente.getId());
             partidasRepository.save(partida);
             return mapper.mapToPartidasDTO(partida);
-        } catch (BadRequestException | NotFoundException | ValidationException ex) {
+        } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al obtener las partidas." + ex.getMessage());

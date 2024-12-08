@@ -61,7 +61,7 @@ public class ClienteService implements UserDetailsService {
         if (!validator.validateRole(clienteRegisterDTO.getRol())) {
             throw new BadRequestException("El rol tiene que ser USER o ADMIN");
         }
-
+        
         if(!validator.validateUsername(clienteRegisterDTO.getUsername())) {
             throw new BadRequestException("El username debe tener al menos 3 caracteres");
         }

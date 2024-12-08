@@ -16,13 +16,6 @@ public class RestHandlerException {
         return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
     }
 
-    @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorMsg badRequestException(HttpServletRequest req, ValidationException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
-
     @ExceptionHandler(GenericException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody

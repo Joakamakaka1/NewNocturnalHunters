@@ -2,10 +2,7 @@ package com.newnocturnalhunter.api_rest.controller;
 
 import com.newnocturnalhunter.api_rest.dto.ClienteLoginDTO;
 import com.newnocturnalhunter.api_rest.dto.ClienteRegisterDTO;
-import com.newnocturnalhunter.api_rest.exceptions.BadRequestException;
-import com.newnocturnalhunter.api_rest.exceptions.GenericException;
-import com.newnocturnalhunter.api_rest.exceptions.MethodNotAllowedException;
-import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
+import com.newnocturnalhunter.api_rest.exceptions.*;
 import com.newnocturnalhunter.api_rest.service.ClienteService;
 import com.newnocturnalhunter.api_rest.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +57,17 @@ public class ClienteController {
             clienteService.create(clienteRegisterDTO);
             return new ResponseEntity<>(clienteRegisterDTO, HttpStatus.CREATED);
         } catch (BadRequestException e) {
-            throw new BadRequestException(e.getMessage());
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } catch (GenericException e) {
-            throw new GenericException(e.getMessage());
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
+            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (NotFoundException e) {
-            throw new NotFoundException(e.getMessage());
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         } catch (MethodNotAllowedException e) {
-            throw new MethodNotAllowedException(e.getMessage());
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
+            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 }

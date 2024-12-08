@@ -4,12 +4,12 @@ import com.newnocturnalhunter.api_rest.dto.EnemigosDTO;
 import com.newnocturnalhunter.api_rest.exceptions.BadRequestException;
 import com.newnocturnalhunter.api_rest.exceptions.GenericException;
 import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
-import com.newnocturnalhunter.api_rest.exceptions.ValidationException;
 import com.newnocturnalhunter.api_rest.model.Enemigos;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
 import com.newnocturnalhunter.api_rest.repository.EnemigosRepository;
 import com.newnocturnalhunter.api_rest.utils.Mapper;
 import com.newnocturnalhunter.api_rest.utils.StringToLong;
+import com.newnocturnalhunter.api_rest.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,8 @@ public class EnemigosService {
     private StringToLong stringToLong;
     @Autowired
     private Mapper mapper;
+    @Autowired
+    private Validator validator;
 
     public List<EnemigosDTO> getAllEnemigos() {
         try {
@@ -63,14 +65,17 @@ public class EnemigosService {
     public EnemigosDTO createEnemigo(EnemigosDTO enemigosDTO) {
         try {
             if (enemigosDTO == null) {
-                throw new ValidationException("El enemigo no puede estar vacío.");
+                throw new BadRequestException("El enemigo no puede estar vacío.");
             }
 
+            if (!validator.validateTipoEnemigo(enemigosDTO.getTipo())) {
+                throw new BadRequestException("El tipo de enemigo no es válido.");
+            }
             // TODO validator
             Enemigos enemigo = mapper.mapToEnemigo(enemigosDTO);
             enemigosRepository.save(enemigo);
             return mapper.mapToEnemigosDTO(enemigo);
-        } catch (ValidationException ex) {
+        } catch (BadRequestException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al crear el enemigo." + ex.getMessage());
@@ -84,7 +89,11 @@ public class EnemigosService {
             }
 
             if (enemigosDTO == null) {
-                throw new ValidationException("El enemigo no puede estar vacío.");
+                throw new BadRequestException("El enemigo no puede estar vacío.");
+            }
+
+            if (!validator.validateTipoEnemigo(enemigosDTO.getTipo())) {
+                throw new BadRequestException("El tipo de enemigo no es válido.");
             }
 
             Enemigos enemigoExistente = enemigosRepository.findById(stringToLong.method(id))
@@ -95,7 +104,7 @@ public class EnemigosService {
             enemigo.setId(enemigoExistente.getId());
             enemigosRepository.save(enemigo);
             return mapper.mapToEnemigosDTO(enemigo);
-        } catch (BadRequestException | NotFoundException | ValidationException ex) {
+        } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new GenericException("Error al actualizar el enemigo." + ex.getMessage());
