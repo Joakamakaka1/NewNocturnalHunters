@@ -76,9 +76,9 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 | **POST** | /clientes/login      | Inicia sesión de un cliente. Requiere email y contraseña. Retorna un token JWT si las credenciales son correctas. |
 | **POST** | /clientes/register   | Registra un nuevo cliente. Requiere nombre, email, contraseña y rol. |
 | **GET**  | /clientes            | Obtiene todos los clientes registrados. Solo accesible para administradores. |
-| **GET**  | /clientes/{id}       | Obtiene los detalles de un cliente específico por su ID. Los clientes solo pueden consultar su propio perfil. |
-| **PUT**  | /clientes/{id}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores. |
-| **DELETE** | /clientes/{id}     | Elimina un cliente por su ID. Solo accesible para el mismo cliente o administradores. |
+| **GET**  | /clientes/{userName}       | Obtiene los detalles de un cliente específico por su userName. Los clientes solo pueden consultar su propio perfil. |
+| **PUT**  | /clientes/{userName}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores. |
+| **DELETE** | /clientes/{userName}     | Elimina un cliente por su userName. Solo accesible para el mismo cliente o administradores. |
 
 ### 2. **Partidas**
 
