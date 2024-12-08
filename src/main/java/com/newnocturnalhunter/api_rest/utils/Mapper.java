@@ -67,6 +67,7 @@ public class Mapper {
         enemigoDTO.setDamage(enemigo.getDamage());
         enemigoDTO.setTipo(enemigo.getTipo());
         enemigoDTO.setImagen(enemigo.getImagen());
+        enemigoDTO.setSalud(enemigo.getSalud());
         return enemigoDTO;
     }
 
@@ -78,6 +79,7 @@ public class Mapper {
         enemigo.setDamage(enemigoDTO.getDamage());
         enemigo.setTipo(enemigoDTO.getTipo());
         enemigo.setImagen(enemigoDTO.getImagen());
+        enemigo.setSalud(enemigoDTO.getSalud());
         return enemigo;
     }
 

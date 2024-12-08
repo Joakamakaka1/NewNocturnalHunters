@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 public class PartidasDTO {
     private String resultado;
-    private String duracion;
+    private Integer duracion;
     private String fechaInicio;
     private Long id_cliente;
 }

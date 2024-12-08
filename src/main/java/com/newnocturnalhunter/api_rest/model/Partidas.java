@@ -17,7 +17,7 @@ public class Partidas {
     private Long id;
     private String resultado;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private Integer duracion;
+    private String duracion;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String fechaInicio;
     @ManyToOne
