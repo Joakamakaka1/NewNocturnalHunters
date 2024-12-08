@@ -35,11 +35,12 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/cliente/register", "/cliente/login", "/enemigos/**", "/partidas/**", "/personajes/**").permitAll()
+                        .requestMatchers("/cliente/**", "/enemigos/**", "/partidas/**", "/personajes/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 

@@ -1,9 +1,6 @@
 package com.newnocturnalhunter.api_rest.utils;
 
-import com.newnocturnalhunter.api_rest.dto.ClienteDTO;
-import com.newnocturnalhunter.api_rest.dto.EnemigosDTO;
-import com.newnocturnalhunter.api_rest.dto.PartidasDTO;
-import com.newnocturnalhunter.api_rest.dto.PersonajesDTO;
+import com.newnocturnalhunter.api_rest.dto.*;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.model.Enemigos;
 import com.newnocturnalhunter.api_rest.model.Partidas;
@@ -23,7 +20,7 @@ public class Mapper {
         return clienteDTO;
     }
 
-    public Cliente mapToCliente(ClienteDTO clienteDTO) {
+    public Cliente mapToCliente(ClienteDTO clienteDTO, ClienteRegisterDTO) {
         Cliente cliente = new Cliente();
         cliente.setId(clienteDTO.getId());
         cliente.setEmail(clienteDTO.getEmail());

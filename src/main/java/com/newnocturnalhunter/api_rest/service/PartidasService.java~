@@ -128,7 +128,7 @@ public class PartidasService {
             Partidas partida = partidasRepository.findById(stringToLong.method(id))
                     .orElseThrow(() -> new NotFoundException("La partida con el ID proporcionado no existe."));
 
-            partidasRepository.deleteById(partida.getId());
+            partidasRepository.delete(partida);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {

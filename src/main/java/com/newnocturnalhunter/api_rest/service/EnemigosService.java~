@@ -120,7 +120,7 @@ public class EnemigosService {
             Enemigos enemigo = enemigosRepository.findById(stringToLong.method(id))
                     .orElseThrow(() -> new NotFoundException("El enemigo con el ID proporcionado no existe."));
 
-            enemigosRepository.deleteById(enemigo.getId());
+            enemigosRepository.delete(enemigo);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {

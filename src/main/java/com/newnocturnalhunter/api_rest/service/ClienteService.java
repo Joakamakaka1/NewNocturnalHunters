@@ -1,11 +1,17 @@
 package com.newnocturnalhunter.api_rest.service;
 
+import com.newnocturnalhunter.api_rest.dto.ClienteDTO;
 import com.newnocturnalhunter.api_rest.dto.ClienteRegisterDTO;
 import com.newnocturnalhunter.api_rest.exceptions.BadRequestException;
 import com.newnocturnalhunter.api_rest.exceptions.DuplicateException;
+import com.newnocturnalhunter.api_rest.exceptions.GenericException;
+import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
+import com.newnocturnalhunter.api_rest.utils.Mapper;
+import com.newnocturnalhunter.api_rest.utils.StringToLong;
 import com.newnocturnalhunter.api_rest.utils.Validator;
+import org.hibernate.jpa.event.internal.CallbackDefinitionResolverLegacyImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +35,10 @@ public class ClienteService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private Validator validator;
+    @Autowired
+    private Mapper mapper;
+    @Autowired
+    private StringToLong stringToLong;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -82,5 +93,77 @@ public class ClienteService implements UserDetailsService {
 
         clienteRepository.save(cliente);
         return clienteRegisterDTO;
+    }
+
+    public ClienteDTO findByNombre(String username) {
+        Cliente u = clienteRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Usuario con nombre "+ username +" no encontrado"));
+
+        return mapper.mapToClienteDTO(u);
+    }
+
+    public List<ClienteDTO> getAllClientes() {
+        try{
+            List<Cliente> clientes = clienteRepository.findAll();
+            if (clientes.isEmpty()) {
+                throw new NotFoundException("No hay clientes registrados.");
+            }
+
+            List<ClienteDTO> clientesDTO = new ArrayList<>();
+            clientes.forEach(cliente -> clientesDTO.add(mapper.mapToClienteDTO(cliente)));
+            return clientesDTO;
+        } catch (NotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new GenericException("Error al obtener la lista de enemigos." + ex.getMessage());
+        }
+    }
+
+    public ClienteDTO update(String id, ClienteDTO clienteDTO) {
+        if(!validator.validateRole(clienteDTO.getRol())) {
+            throw new BadRequestException("El rol tiene que ser USER o ADMIN");
+        }
+
+        if(!validator.validateUsername(clienteDTO.getUsername())) {
+            throw new BadRequestException("El username debe tener al menos 3 caracteres");
+        }
+
+        if(!validator.validatePassword(clienteDTO.getPassword())) {
+            throw new BadRequestException("La contraseñas debe tener al menos 6 caracteres");
+        }
+
+        if(!validator.validateEmail(clienteDTO.getEmail())) {
+            throw new BadRequestException("El email no es valido");
+        }
+
+        Cliente clienteExistente = clienteRepository.findById(stringToLong.method(id))
+                .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
+
+        Cliente cliente = mapper.mapToCliente(clienteDTO);
+        cliente.setUsername(clienteDTO.getUsername());
+        cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
+        cliente.setEmail(clienteDTO.getEmail());
+        cliente.setRol(clienteDTO.getRol());
+
+        clienteRepository.save(cliente);
+        return mapper.mapToClienteDTO(cliente);
+    }
+
+    public void delete(String id) {
+        try {
+            if (id == null || id.isEmpty() || id.isBlank()) {
+                throw new BadRequestException("El ID no puede estar vacío.");
+            }
+
+            Cliente cliente = clienteRepository.findById(Long.parseLong(id))
+                    .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
+
+            clienteRepository.deleteById(cliente.getId());
+        } catch (BadRequestException | NotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new GenericException("Error al eliminar el cliente." + ex.getMessage());
+        }
     }
 }

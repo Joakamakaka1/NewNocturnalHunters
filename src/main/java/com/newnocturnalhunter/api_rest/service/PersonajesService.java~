@@ -128,7 +128,7 @@ public class PersonajesService {
             Personajes personaje = personajesRepository.findById(stringToLong.method(id))
                     .orElseThrow(() -> new NotFoundException("El personaje con el ID proporcionado no existe."));
 
-            personajesRepository.deleteById(personaje.getId());
+            personajesRepository.delete(personaje);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {

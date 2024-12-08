@@ -113,7 +113,7 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/{userName}") // -> http://localhost:8080/cliente/{userName}
+    @PutMapping("/{userName}") // -> http://localhost:8080/cliente/
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.update(id, clienteDTO);
@@ -133,7 +133,7 @@ public class ClienteController {
         }
     }
 
-    @DeleteMapping("/{userName}") // -> http://localhost:8080/cliente/{userName}
+    @DeleteMapping("/{userName}") // -> http://localhost:8080/cliente/
     public ResponseEntity<?> delete(@PathVariable String id) {
         try {
             clienteService.delete(id);
