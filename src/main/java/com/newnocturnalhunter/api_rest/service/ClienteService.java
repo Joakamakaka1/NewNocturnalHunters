@@ -120,7 +120,7 @@ public class ClienteService implements UserDetailsService {
         }
     }
 
-    public ClienteDTO update(String id, ClienteDTO clienteDTO) {
+    public ClienteDTO update(String username, ClienteDTO clienteDTO) {
         if(!validator.validateRole(clienteDTO.getRol())) {
             throw new BadRequestException("El rol tiene que ser USER o ADMIN");
         }
@@ -137,7 +137,7 @@ public class ClienteService implements UserDetailsService {
             throw new BadRequestException("El email no es valido");
         }
 
-        Cliente clienteExistente = clienteRepository.findById(stringToLong.method(id))
+        Cliente clienteExistente = clienteRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
 
         Cliente cliente = mapper.mapToCliente(clienteDTO);
@@ -150,16 +150,16 @@ public class ClienteService implements UserDetailsService {
         return mapper.mapToClienteDTO(cliente);
     }
 
-    public void delete(String id) {
+    public void delete(String userName) {
         try {
-            if (id == null || id.isEmpty() || id.isBlank()) {
+            if (userName == null || userName.isEmpty() || userName.isBlank()) {
                 throw new BadRequestException("El ID no puede estar vacío.");
             }
 
-            Cliente cliente = clienteRepository.findById(Long.parseLong(id))
+            Cliente cliente = clienteRepository.findByUsername(userName)
                     .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
 
-            clienteRepository.deleteById(cliente.getId());
+            clienteRepository.delete(cliente);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {

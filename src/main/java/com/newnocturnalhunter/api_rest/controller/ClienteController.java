@@ -114,9 +114,9 @@ public class ClienteController {
     }
 
     @PutMapping("/{userName}") // -> http://localhost:8080/cliente/{userName}
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<?> update(@PathVariable String username, @RequestBody ClienteDTO clienteDTO) {
         try {
-            clienteService.update(id, clienteDTO);
+            clienteService.update(username, clienteDTO);
             return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
         } catch (BadRequestException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
