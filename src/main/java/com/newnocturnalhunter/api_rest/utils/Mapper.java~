@@ -48,10 +48,10 @@ public class Mapper {
     public Personajes mapToPersonaje(PersonajesDTO personajeDTO, Cliente cliente) {
         Personajes personaje = new Personajes();
         personaje.setNombre(personajeDTO.getNombre());
-        personaje.setVelocidad(personajeDTO.getVelocidad());
+        personaje.setVelocidad((int) personajeDTO.getVelocidad());
         personaje.setVida(personajeDTO.getVida());
         personaje.setSalud(personajeDTO.getSalud());
-        personaje.setDamage(personajeDTO.getDamage());
+        personaje.setDamage((int) personajeDTO.getDamage());
         personaje.setTipo(personajeDTO.getTipo());
         personaje.setImagen(personajeDTO.getImagen());
         personaje.setCliente(cliente);

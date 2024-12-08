@@ -16,7 +16,10 @@ public class Personajes {
     private Long id;
     @Column(nullable = false, unique = true)
     private String nombre;
-    private Integer estadisticas;
+    private Integer vida;
+    private Integer salud;
+    private double damage;
+    private double velocidad;
     @Enumerated(EnumType.STRING)
     private TipoPersonaje tipo;
     private String imagen;

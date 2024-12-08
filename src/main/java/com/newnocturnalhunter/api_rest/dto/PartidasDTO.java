@@ -12,5 +12,5 @@ public class PartidasDTO {
     private String resultado;
     private Integer duracion;
     private String fechaInicio;
-    private Cliente cliente;
+    private Long id_cliente;
 }

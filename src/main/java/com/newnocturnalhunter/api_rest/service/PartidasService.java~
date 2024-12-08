@@ -99,7 +99,7 @@ public class PartidasService {
 
             // TODO validator
             Partidas partida = mapper.mapToPartidas(partidasDTO, cliente);
-            partida.setId(partidaExistente.getId());
+            partida.setId(partidaExistente.getId()); // Asegurar que el ID no se pierda
             partidasRepository.save(partida);
             return mapper.mapToPartidasDTO(partida);
         } catch (BadRequestException | NotFoundException | ValidationException ex) {

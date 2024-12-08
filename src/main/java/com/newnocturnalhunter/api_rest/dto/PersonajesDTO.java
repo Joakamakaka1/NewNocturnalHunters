@@ -1,6 +1,10 @@
 package com.newnocturnalhunter.api_rest.dto;
 
 import com.newnocturnalhunter.api_rest.model.Cliente;
+import com.newnocturnalhunter.api_rest.model.Enemigos;
+import com.newnocturnalhunter.api_rest.model.Personajes;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Data
@@ -10,8 +14,12 @@ import lombok.*;
 @Setter
 public class PersonajesDTO {
     private String nombre;
-    private String estadisticas;
-    private Integer tipo;
+    private Integer vida;
+    private Integer salud;
+    private double damage;
+    private double velocidad;
+    @Enumerated(EnumType.STRING)
+    private Personajes.TipoPersonaje tipo;
     private String imagen;
-    private Cliente cliente;
+    private Long id_cliente;
 }
