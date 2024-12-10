@@ -11,6 +11,7 @@ import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
 import com.newnocturnalhunter.api_rest.utils.Mapper;
 import com.newnocturnalhunter.api_rest.utils.StringToLong;
 import com.newnocturnalhunter.api_rest.utils.Validator;
+import jakarta.transaction.Transactional;
 import org.hibernate.jpa.event.internal.CallbackDefinitionResolverLegacyImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -176,9 +177,9 @@ public class ClienteService implements UserDetailsService {
 
         try {
             Cliente cliente = clienteRepository.findByUsername(userName)
-                    .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
+                    .orElseThrow(() -> new NotFoundException("El cliente con el username proporcionado no existe."));
 
-            clienteRepository.deleteByUsername(cliente.getUsername());
+            clienteRepository.delete(cliente);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
