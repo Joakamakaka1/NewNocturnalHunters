@@ -125,9 +125,6 @@ public class PersonajesController {
         } catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 }

@@ -85,22 +85,34 @@ public class ClienteService implements UserDetailsService {
             throw new BadRequestException("El email no es valido");
         }
 
-        Cliente cliente = new Cliente();
-        cliente.setUsername(clienteRegisterDTO.getUsername());
-        cliente.setPassword(passwordEncoder.encode(clienteRegisterDTO.getPassword1()));
-        cliente.setEmail(clienteRegisterDTO.getEmail());
-        cliente.setRol(clienteRegisterDTO.getRol());
+        try{
+            Cliente cliente = new Cliente();
+            cliente.setUsername(clienteRegisterDTO.getUsername());
+            cliente.setPassword(passwordEncoder.encode(clienteRegisterDTO.getPassword1()));
+            cliente.setEmail(clienteRegisterDTO.getEmail());
+            cliente.setRol(clienteRegisterDTO.getRol());
 
-        clienteRepository.save(cliente);
-        return clienteRegisterDTO;
+            clienteRepository.save(cliente);
+            return clienteRegisterDTO;
+        }catch (DuplicateException | BadRequestException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new GenericException("Error al crear el cliente." + ex.getMessage());
+        }
     }
 
     public ClienteDTO findByNombre(String username) {
-        Cliente u = clienteRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("Usuario con nombre "+ username +" no encontrado"));
+        try{
+            Cliente u = clienteRepository
+                    .findByUsername(username)
+                    .orElseThrow(() -> new NotFoundException("Usuario con nombre "+ username +" no encontrado"));
 
-        return mapper.mapToClienteDTO(u);
+            return mapper.mapToClienteDTO(u);
+        }catch (NotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new GenericException("Error al obtener el cliente por nombre." + ex.getMessage());
+        }
     }
 
     public List<ClienteDTO> getAllClientes() {
@@ -121,6 +133,10 @@ public class ClienteService implements UserDetailsService {
     }
 
     public ClienteDTO update(String username, ClienteDTO clienteDTO) {
+        if(!validator.validateUsername(username)) {
+            throw new BadRequestException("El username no puede estar vacío.");
+        }
+
         if(!validator.validateRole(clienteDTO.getRol())) {
             throw new BadRequestException("El rol tiene que ser USER o ADMIN");
         }
@@ -137,25 +153,28 @@ public class ClienteService implements UserDetailsService {
             throw new BadRequestException("El email no es valido");
         }
 
-        Cliente clienteExistente = clienteRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
+        try{
+            Cliente cliente = mapper.mapToCliente(clienteDTO);
+            cliente.setUsername(clienteDTO.getUsername());
+            cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
+            cliente.setEmail(clienteDTO.getEmail());
+            cliente.setRol(clienteDTO.getRol());
 
-        Cliente cliente = mapper.mapToCliente(clienteDTO);
-        cliente.setUsername(clienteDTO.getUsername());
-        cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
-        cliente.setEmail(clienteDTO.getEmail());
-        cliente.setRol(clienteDTO.getRol());
-
-        clienteRepository.save(cliente);
-        return mapper.mapToClienteDTO(cliente);
+            clienteRepository.save(cliente);
+            return mapper.mapToClienteDTO(cliente);
+        }catch (BadRequestException | NotFoundException ex) {
+            throw ex;
+        }catch (Exception ex) {
+            throw new GenericException("Error al actualizar el cliente." + ex.getMessage());
+        }
     }
 
     public void delete(String userName) {
-        try {
-            if (userName == null || userName.isEmpty() || userName.isBlank()) {
-                throw new BadRequestException("El ID no puede estar vacío.");
-            }
+        if (userName == null || userName.isEmpty() || userName.isBlank()) {
+            throw new BadRequestException("El ID no puede estar vacío.");
+        }
 
+        try {
             Cliente cliente = clienteRepository.findByUsername(userName)
                     .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
 

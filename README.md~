@@ -71,14 +71,14 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 ### 1. **Clientes**
 
-| Método | Endpoint              | Descripción                                                  |
-|--------|-----------------------|--------------------------------------------------------------|
-| **POST** | /clientes/login      | Inicia sesión de un cliente. Requiere email y contraseña. Retorna un token JWT si las credenciales son correctas. |
-| **POST** | /clientes/register   | Registra un nuevo cliente. Requiere nombre, email, contraseña y rol. |
-| **GET**  | /clientes            | Obtiene todos los clientes registrados. Solo accesible para administradores. |
-| **GET**  | /clientes/{userName}       | Obtiene los detalles de un cliente específico por su userName. Los clientes solo pueden consultar su propio perfil. |
-| **PUT**  | /clientes/{userName}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores. |
-| **DELETE** | /clientes/{userName}     | Elimina un cliente por su userName. Solo accesible para el mismo cliente o administradores. |
+| Método | Endpoint              | Descripción                                                                                                                 |
+|--------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| **POST** | /clientes/login      | Inicia sesión de un cliente. Requiere username, email y contraseña. Retorna un token JWT si las credenciales son correctas. |
+| **POST** | /clientes/register   | Registra un nuevo cliente. Requiere nombre, email, contraseá (2 veces para verificarla) y rol.                              |
+| **GET**  | /clientes            | Obtiene todos los clientes registrados. Solo accesible para administradores.                                                |
+| **GET**  | /clientes/{userName}       | Obtiene los detalles de un cliente específico por su userName. Los clientes solo pueden consultar su propio perfil.         |
+| **PUT**  | /clientes/{userName}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores.                      |
+| **DELETE** | /clientes/{userName}     | Elimina un cliente por su userName. Solo accesible para el mismo cliente o administradores.                                 |
 
 ### 2. **Partidas**
 
@@ -120,7 +120,7 @@ La lógica de negocio está centrada en los siguientes aspectos clave:
   
 - **Gestión de Partidas**: Los clientes pueden iniciar nuevas partidas y ver sus partidas. Cada partida está asociada a un cliente. Los administradores pueden gestionar todas las partidas, editarlas y borrarlas
 
-- **Gestión de Personajes y Enemigos**: Los clientes consultar los personajes y enemigos. Los enemigos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
+- **Gestión de Personajes y Enemigos**: Los clientes pueden consultar los personajes y enemigos. Estos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
 
 ---
 

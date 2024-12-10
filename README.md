@@ -71,14 +71,14 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 ### 1. **Clientes**
 
-| Método | Endpoint              | Descripción                                                  |
-|--------|-----------------------|--------------------------------------------------------------|
-| **POST** | /clientes/login      | Inicia sesión de un cliente. Requiere email y contraseña. Retorna un token JWT si las credenciales son correctas. |
-| **POST** | /clientes/register   | Registra un nuevo cliente. Requiere nombre, email, contraseña y rol. |
-| **GET**  | /clientes            | Obtiene todos los clientes registrados. Solo accesible para administradores. |
-| **GET**  | /clientes/{userName}       | Obtiene los detalles de un cliente específico por su userName. Los clientes solo pueden consultar su propio perfil. |
-| **PUT**  | /clientes/{userName}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores. |
-| **DELETE** | /clientes/{userName}     | Elimina un cliente por su userName. Solo accesible para el mismo cliente o administradores. |
+| Método | Endpoint              | Descripción                                                                                                                 |
+|--------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| **POST** | /clientes/login      | Inicia sesión de un cliente. Requiere username, email y contraseña. Retorna un token JWT si las credenciales son correctas. |
+| **POST** | /clientes/register   | Registra un nuevo cliente. Requiere nombre, email, contraseá (2 veces para verificarla) y rol.                              |
+| **GET**  | /clientes            | Obtiene todos los clientes registrados. Solo accesible para administradores.                                                |
+| **GET**  | /clientes/{userName}       | Obtiene los detalles de un cliente específico por su userName. Los clientes solo pueden consultar su propio perfil.         |
+| **PUT**  | /clientes/{userName}       | Permite actualizar los detalles de un cliente. Solo accesible para el mismo cliente o administradores.                      |
+| **DELETE** | /clientes/{userName}     | Elimina un cliente por su userName. Solo accesible para el mismo cliente o administradores.                                 |
 
 ### 2. **Partidas**
 
@@ -137,7 +137,6 @@ A continuación, se detallan las excepciones que maneja la API y sus correspondi
 | **ForbiddenException**  | 403              | Cuando un cliente intenta acceder a un recurso que no tiene permisos para ver o modificar. |
 | **DuplicateException**  | 409              | Cuando se intenta crear un recurso con datos duplicados, como un email ya registrado. |
 | **UnauthorizedException** | 401            | Cuando un cliente o administrador intenta acceder a un recurso sin un token de autenticación válido o con un token expirado. |
-| **ValidationException** | 422              | Cuando los datos enviados en la solicitud no cumplen con las reglas de validación del sistema, como un formato incorrecto de email o un nombre vacío. |
 | **MethodNotAllowedException** | 405         | Cuando un cliente o administrador intenta acceder a un endpoint utilizando un método HTTP incorrecto, por ejemplo, un `GET` cuando el endpoint solo acepta un `POST`. |
 | **InternalServerErrorException** | 500       | Cuando ocurre un error inesperado en el servidor, como problemas con la base de datos o un fallo no manejado. |
 
@@ -157,7 +156,6 @@ A continuación se detallan los códigos de estado HTTP utilizados por la API:
 | **409** | Conflict              | Conflicto con el estado actual del recurso (por ejemplo, duplicados). |
 | **403** | Forbidden             | El usuario no tiene permisos para acceder o modificar el recurso. |
 | **401** | Unauthorized          | Se lanza cuando el cliente o administrador intenta acceder a un recurso sin un token de autenticación válido o con un token expirado. |
-| **422** | Unprocessable Entity  | Se lanza cuando los datos enviados en la solicitud no cumplen con las reglas de validación del sistema. |
 | **405** | Method Not Allowed    | Se lanza cuando un cliente o administrador intenta acceder a un endpoint utilizando un método HTTP incorrecto. |
 | **500** | Internal Server Error | Error interno del servidor, cuando ocurre un problema no manejado específicamente. |
 

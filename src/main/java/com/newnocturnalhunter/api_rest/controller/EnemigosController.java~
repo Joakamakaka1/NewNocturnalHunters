@@ -3,7 +3,6 @@ package com.newnocturnalhunter.api_rest.controller;
 import com.newnocturnalhunter.api_rest.dto.EnemigosDTO;
 import com.newnocturnalhunter.api_rest.exceptions.*;
 import com.newnocturnalhunter.api_rest.service.EnemigosService;
-import com.newnocturnalhunter.api_rest.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +33,9 @@ public class EnemigosController {
         }catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/");
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/");
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -54,6 +56,9 @@ public class EnemigosController {
         }catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/" + idEnemigo);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/" + idEnemigo);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -74,6 +79,9 @@ public class EnemigosController {
         } catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/");
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/");
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -94,6 +102,9 @@ public class EnemigosController {
         } catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/" + idEnemigo);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/enemigos/" + idEnemigo);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 

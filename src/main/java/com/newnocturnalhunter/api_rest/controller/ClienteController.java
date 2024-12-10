@@ -70,6 +70,9 @@ public class ClienteController {
         } catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register" );
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -90,6 +93,9 @@ public class ClienteController {
         } catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -110,6 +116,9 @@ public class ClienteController {
         }catch (MethodNotAllowedException e) {
             ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -119,17 +128,20 @@ public class ClienteController {
             clienteService.update(username, clienteDTO);
             return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
         } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -139,17 +151,20 @@ public class ClienteController {
             clienteService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
+        }catch (UnauthorizedException e) {
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 }
