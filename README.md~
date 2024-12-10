@@ -120,7 +120,7 @@ La lógica de negocio está centrada en los siguientes aspectos clave:
   
 - **Gestión de Partidas**: Los clientes pueden iniciar nuevas partidas y ver sus partidas. Cada partida está asociada a un cliente. Los administradores pueden gestionar todas las partidas, editarlas y borrarlas
 
-- **Gestión de Personajes y Enemigos**: Los clientes pueden consultar los personajes y enemigos. Estos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
+- **Gestión de Personajes y Enemigos**: Los clientes consultar los personajes y enemigos. Los enemigos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
 
 ---
 
