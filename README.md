@@ -18,13 +18,13 @@ Este sistema es esencial para los desarrolladores de videojuegos que necesitan a
 
 ### 1. **Clientes**
 
-| Atributo   | Tipo          | Descripción                                                |
-|------------|---------------|------------------------------------------------------------|
-| **ID**     | Long           | Clave primaria, autoincremental.                           |
-| **Username** | VARCHAR(255)   | Nombre del cliente (único y no nulo).                      |
-| **Email**  | VARCHAR(255)   | Correo electrónico del cliente (único y no nulo).           |
-| **Password** | VARCHAR(255) | Contraseña en texto plano (sería recomendable almacenar un hash). |
-| **Rol**    | VARCHAR(50)    | Rol del cliente (por ejemplo: `USER`, `ADMIN`).             |
+| Atributo   | Tipo          | Descripción                                       |
+|------------|---------------|---------------------------------------------------|
+| **ID**     | Long           | Clave primaria, autoincremental.                  |
+| **Username** | VARCHAR(255)   | Nombre del cliente (único y no nulo).             |
+| **Email**  | VARCHAR(255)   | Correo electrónico del cliente (único y no nulo). |
+| **Password** | VARCHAR(255) | Contraseña en texto plano almacenada en un hash.  |
+| **Rol**    | VARCHAR(50)    | Rol del cliente (por ejemplo: `USER`, `ADMIN`).   |
 
 ### 2. **Partidas**
 
@@ -122,6 +122,17 @@ La lógica de negocio está centrada en los siguientes aspectos clave:
 
 - **Gestión de Personajes y Enemigos**: Los clientes pueden consultar los personajes y enemigos. Estos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
 
+- **Validaciones en los campos**: Los campos de la API se validan para asegurarse de que contengan datos válidos y no sean nulos. Estas validaciones garantizan la integridad de los datos almacenados en la base de datos.
+
+| Excepción          | Descripción | Validación                                                                                                                                                            |
+|--------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Email**          | Correo electrónico del usuario.         | Utiliza una expresión regular para verificar que el email tenga el formato válido: `^[A-Za-z0-9+_.-]+@(.+)$`.                                                                                                   |
+| **Role**           | Rol del usuario (puede ser "USER" o "ADMIN").         | El valor debe ser "USER" o "ADMIN".                                                                                            |
+| **Username**       | Nombre de usuario.         | El nombre de usuario debe tener al menos 3 caracteres y no puede ser nulo o vacío.                                                                            |
+| **Password**       | Contraseña del usuario.         | La contraseña debe tener al menos 6 caracteres y no puede ser nula o vacía.                                                                                 |
+| **Tipo Enemigo**   | Tipo del enemigo (Basico, Intermedio, Boss)         | El valor debe ser uno de los siguientes tipos: `Basico`, `Intermedio` o `Boss` de la enumeración `TipoEnemigo`.                                          |
+| **Tipo Personaje** | Tipo del personaje (Espadachín, Disparador, Melee, Tanque).         | El valor debe ser uno de los siguientes tipos: `Espadachin`, `Disparador`, `Mele` o `Tanque` de la enumeración `TipoPersonaje`. |
+| **Fecha**          | Fecha en formato `yyyy-MM-dd HH:mm:ss`.         | La fecha debe cumplir con el formato `\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}`, que representa una fecha y hora válidas.                                                         |
 ---
 
 ## Excepciones y Códigos de Estado

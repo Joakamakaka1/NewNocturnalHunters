@@ -146,24 +146,24 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{userName}") // -> http://localhost:8080/cliente/{userName}
-    public ResponseEntity<?> delete(@PathVariable String userName) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
         try {
-            clienteService.delete(userName);
+            clienteService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
         }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + userName);
+            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + id);
             return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }

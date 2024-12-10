@@ -18,13 +18,13 @@ Este sistema es esencial para los desarrolladores de videojuegos que necesitan a
 
 ### 1. **Clientes**
 
-| Atributo   | Tipo          | Descripción                                                |
-|------------|---------------|------------------------------------------------------------|
-| **ID**     | Long           | Clave primaria, autoincremental.                           |
-| **Username** | VARCHAR(255)   | Nombre del cliente (único y no nulo).                      |
-| **Email**  | VARCHAR(255)   | Correo electrónico del cliente (único y no nulo).           |
-| **Password** | VARCHAR(255) | Contraseña en texto plano (sería recomendable almacenar un hash). |
-| **Rol**    | VARCHAR(50)    | Rol del cliente (por ejemplo: `USER`, `ADMIN`).             |
+| Atributo   | Tipo          | Descripción                                       |
+|------------|---------------|---------------------------------------------------|
+| **ID**     | Long           | Clave primaria, autoincremental.                  |
+| **Username** | VARCHAR(255)   | Nombre del cliente (único y no nulo).             |
+| **Email**  | VARCHAR(255)   | Correo electrónico del cliente (único y no nulo). |
+| **Password** | VARCHAR(255) | Contraseña en texto plano almacenada en un hash.  |
+| **Rol**    | VARCHAR(50)    | Rol del cliente (por ejemplo: `USER`, `ADMIN`).   |
 
 ### 2. **Partidas**
 
@@ -122,6 +122,19 @@ La lógica de negocio está centrada en los siguientes aspectos clave:
 
 - **Gestión de Personajes y Enemigos**: Los clientes pueden consultar los personajes y enemigos. Estos son gestionados por los administradores, y se pueden obtener detalles sobre ellos para ajustar las interacciones en las partidas.
 
+- **Validaciones en los campos**: Los campos de la API se validan para asegurarse de que contengan datos válidos y no sean nulos. Estas validaciones garantizan la integridad de los datos almacenados en la base de datos.
+
+## Validaciones de Campos
+
+| Excepción          | Descripción | Validación                                                                                                                                                            |
+|--------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Email**          | Correo electrónico del usuario.         | Utiliza una expresión regular para verificar que el email tenga el formato válido: `^[A-Za-z0-9+_.-]+@(.+)$`.                                                                                                     |
+| **Role**           | Rol del usuario (puede ser "USER" o "ADMIN").         | El valor debe ser "USER" o "ADMIN".                                                                                            |
+| **Username**       | Nombre de usuario.         | El nombre de usuario debe tener al menos 3 caracteres y no puede ser nulo o vacío.                                                                            |
+| **Password**       | Contraseña del usuario.         | La contraseña debe tener al menos 6 caracteres y no puede ser nula o vacía.                                                                                 |
+| **Tipo Enemigo**   | Tipo del enemigo (Basico, Intermedio, Boss)         | El valor debe ser uno de los siguientes tipos: `Basico`, `Intermedio` o `Boss` de la enumeración `TipoEnemigo`.                                          |
+| **Tipo Personaje** | Tipo del personaje (Espadachín, Disparador, Melee, Tanque).         | El valor debe ser uno de los siguientes tipos: `Espadachin`, `Disparador`, `Mele` o `Tanque` de la enumeración `TipoPersonaje`. |
+| **Fecha**          | Fecha en formato `yyyy-MM-dd HH:mm:ss`.         | Cuando ocurre un error inesperado en el servidor, como problemas con la base de datos o un fallo no manejado.                                                         |
 ---
 
 ## Excepciones y Códigos de Estado
@@ -137,7 +150,6 @@ A continuación, se detallan las excepciones que maneja la API y sus correspondi
 | **ForbiddenException**  | 403              | Cuando un cliente intenta acceder a un recurso que no tiene permisos para ver o modificar. |
 | **DuplicateException**  | 409              | Cuando se intenta crear un recurso con datos duplicados, como un email ya registrado. |
 | **UnauthorizedException** | 401            | Cuando un cliente o administrador intenta acceder a un recurso sin un token de autenticación válido o con un token expirado. |
-| **ValidationException** | 422              | Cuando los datos enviados en la solicitud no cumplen con las reglas de validación del sistema, como un formato incorrecto de email o un nombre vacío. |
 | **MethodNotAllowedException** | 405         | Cuando un cliente o administrador intenta acceder a un endpoint utilizando un método HTTP incorrecto, por ejemplo, un `GET` cuando el endpoint solo acepta un `POST`. |
 | **InternalServerErrorException** | 500       | Cuando ocurre un error inesperado en el servidor, como problemas con la base de datos o un fallo no manejado. |
 
@@ -157,7 +169,6 @@ A continuación se detallan los códigos de estado HTTP utilizados por la API:
 | **409** | Conflict              | Conflicto con el estado actual del recurso (por ejemplo, duplicados). |
 | **403** | Forbidden             | El usuario no tiene permisos para acceder o modificar el recurso. |
 | **401** | Unauthorized          | Se lanza cuando el cliente o administrador intenta acceder a un recurso sin un token de autenticación válido o con un token expirado. |
-| **422** | Unprocessable Entity  | Se lanza cuando los datos enviados en la solicitud no cumplen con las reglas de validación del sistema. |
 | **405** | Method Not Allowed    | Se lanza cuando un cliente o administrador intenta acceder a un endpoint utilizando un método HTTP incorrecto. |
 | **500** | Internal Server Error | Error interno del servidor, cuando ocurre un problema no manejado específicamente. |
 

@@ -178,7 +178,7 @@ public class ClienteService implements UserDetailsService {
             Cliente cliente = clienteRepository.findByUsername(userName)
                     .orElseThrow(() -> new NotFoundException("El cliente con el ID proporcionado no existe."));
 
-            clienteRepository.deleteByUsername(cliente.getUsername());
+            clienteRepository.deleteByUsername(cliente);
         } catch (BadRequestException | NotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
