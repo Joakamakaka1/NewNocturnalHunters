@@ -3,6 +3,7 @@ package com.newnocturnalhunter.api_rest.security;
 import com.newnocturnalhunter.api_rest.exceptions.GenericException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
+import com.newnocturnalhunter.api_rest.utils.AuthorizationConfig;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -38,39 +39,8 @@ public class SecurityConfig {
     private RsaKeyProperties rsaKeys;
     @Autowired
     private ClienteRepository usuarioRepository;
-    private AuthorizationManager<RequestAuthorizationContext> getUsuarioByIdManager() {
-        return (authentication, object) -> {
-            Authentication auth = authentication.get();
-
-            boolean isAdmin = auth.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                return new AuthorizationDecision(true);
-            }
-
-            String path = object.getRequest().getRequestURI();
-            String username = path.replaceAll("/cliente/", "");
-
-            Cliente cliente = null;
-
-            try {
-                cliente = usuarioRepository.findByUsername(username).orElse(null);
-            } catch (Exception e) {
-                throw new GenericException("error inesperado. " + e.getMessage());
-            }
-
-            if (cliente == null) {
-                return new AuthorizationDecision(false);
-            }
-
-            if (cliente.getUsername().equals(auth.getName())) {
-                return new AuthorizationDecision(true);
-            }
-
-            return new AuthorizationDecision(false);
-        };
-    }
+    @Autowired
+    private AuthorizationConfig authorizationConfig;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -79,9 +49,9 @@ public class SecurityConfig {
                         //Cliente Endpoints
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/cliente/{username}").access(getUsuarioByIdManager())
-                        .requestMatchers(HttpMethod.DELETE, "/cliente/{username}").access(getUsuarioByIdManager())
-                        .requestMatchers(HttpMethod.PUT, "/cliente/{username}").access(getUsuarioByIdManager())
+                        .requestMatchers(HttpMethod.GET, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
                         // Partidas Endpoints
                         .anyRequest().authenticated()
                 )
