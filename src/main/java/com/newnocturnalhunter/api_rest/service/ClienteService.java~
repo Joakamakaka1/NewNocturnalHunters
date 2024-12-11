@@ -25,9 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * The type Cliente service.
- */
 @Service
 public class ClienteService implements UserDetailsService {
     @Autowired
@@ -61,12 +58,6 @@ public class ClienteService implements UserDetailsService {
         return userDetails;
     }
 
-    /**
-     * Create cliente register dto.
-     *
-     * @param clienteRegisterDTO the cliente register dto
-     * @return the cliente register dto
-     */
     public ClienteRegisterDTO create(ClienteRegisterDTO clienteRegisterDTO) {
         if (clienteRepository.findByUsername(clienteRegisterDTO.getUsername()).isPresent()) {
             throw new DuplicateException("El usuario ya existe");
@@ -102,12 +93,6 @@ public class ClienteService implements UserDetailsService {
         return clienteRegisterDTO;
     }
 
-    /**
-     * Find by nombre cliente dto.
-     *
-     * @param username the username
-     * @return the cliente dto
-     */
     public ClienteDTO findByNombre(String username) {
         Cliente u = clienteRepository
                 .findByUsername(username)
@@ -116,11 +101,6 @@ public class ClienteService implements UserDetailsService {
         return mapper.mapToClienteDTO(u);
     }
 
-    /**
-     * Gets all clientes.
-     *
-     * @return the all clientes
-     */
     public List<ClienteDTO> getAllClientes() {
         List<Cliente> clientes = clienteRepository.findAll();
         if (clientes.isEmpty()) {
@@ -132,13 +112,6 @@ public class ClienteService implements UserDetailsService {
         return clientesDTO;
     }
 
-    /**
-     * Update cliente dto.
-     *
-     * @param username   the username
-     * @param clienteDTO the cliente dto
-     * @return the cliente dto
-     */
     public ClienteDTO update(String username, ClienteDTO clienteDTO) {
         if (!validator.validateUsername(username)) {
             throw new BadRequestException("El username no puede estar vacío.");
@@ -170,11 +143,6 @@ public class ClienteService implements UserDetailsService {
         return mapper.mapToClienteDTO(cliente);
     }
 
-    /**
-     * Delete.
-     *
-     * @param userName the user name
-     */
     public void delete(String userName) {
         if (userName == null || userName.isEmpty() || userName.isBlank()) {
             throw new BadRequestException("El ID no puede estar vacío.");

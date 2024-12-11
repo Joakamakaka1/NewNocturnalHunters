@@ -3,11 +3,12 @@ package com.newnocturnalhunter.api_rest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The type Enemigos.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "enemigos")
 public class Enemigos {
@@ -24,7 +25,21 @@ public class Enemigos {
     private TipoEnemigo tipo;
     private String imagen;
 
+    /**
+     * The enum Tipo enemigo.
+     */
     public enum TipoEnemigo {
-        Basico, Intermedio, Boss
+        /**
+         * Basico tipo enemigo.
+         */
+        Basico,
+        /**
+         * Intermedio tipo enemigo.
+         */
+        Intermedio,
+        /**
+         * Boss tipo enemigo.
+         */
+        Boss
     }
 }

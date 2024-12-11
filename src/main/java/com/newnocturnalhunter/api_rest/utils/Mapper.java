@@ -10,9 +10,17 @@ import com.newnocturnalhunter.api_rest.model.Partidas;
 import com.newnocturnalhunter.api_rest.model.Personajes;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Mapper.
+ */
 @Component
 public class Mapper {
-    // Cliente
+    /**
+     * Map to cliente dto cliente dto.
+     *
+     * @param cliente the cliente
+     * @return the cliente dto
+     */
     public ClienteDTO mapToClienteDTO(Cliente cliente) {
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setId(cliente.getId());
@@ -23,6 +31,12 @@ public class Mapper {
         return clienteDTO;
     }
 
+    /**
+     * Map to cliente cliente.
+     *
+     * @param clienteDTO the cliente dto
+     * @return the cliente
+     */
     public Cliente mapToCliente(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente();
         cliente.setId(clienteDTO.getId());
@@ -33,7 +47,12 @@ public class Mapper {
         return cliente;
     }
 
-    // Partidas
+    /**
+     * Map to partidas dto partidas dto.
+     *
+     * @param partidas the partidas
+     * @return the partidas dto
+     */
     public PartidasDTO mapToPartidasDTO(Partidas partidas) {
         PartidasDTO partidasDTO = new PartidasDTO();
         partidasDTO.setResultado(partidas.getResultado());
@@ -43,6 +62,13 @@ public class Mapper {
         return partidasDTO;
     }
 
+    /**
+     * Map to partidas partidas.
+     *
+     * @param partidasDTO the partidas dto
+     * @param cliente     the cliente
+     * @return the partidas
+     */
     public Partidas mapToPartidas(PartidasDTO partidasDTO, Cliente cliente) {
         Partidas partidas = new Partidas();
         partidas.setResultado(partidasDTO.getResultado());
@@ -52,7 +78,12 @@ public class Mapper {
         return partidas;
     }
 
-    // Personajes
+    /**
+     * Map to personajes dto personajes dto.
+     *
+     * @param personaje the personaje
+     * @return the personajes dto
+     */
     public PersonajesDTO mapToPersonajesDTO(Personajes personaje) {
         PersonajesDTO personajeDTO = new PersonajesDTO();
         personajeDTO.setNombre(personaje.getNombre());
@@ -66,6 +97,13 @@ public class Mapper {
         return personajeDTO;
     }
 
+    /**
+     * Map to personaje personajes.
+     *
+     * @param personajeDTO the personaje dto
+     * @param cliente      the cliente
+     * @return the personajes
+     */
     public Personajes mapToPersonaje(PersonajesDTO personajeDTO, Cliente cliente) {
         Personajes personaje = new Personajes();
         personaje.setNombre(personajeDTO.getNombre());
@@ -79,7 +117,12 @@ public class Mapper {
         return personaje;
     }
 
-    // Enemigos
+    /**
+     * Map to enemigos dto enemigos dto.
+     *
+     * @param enemigo the enemigo
+     * @return the enemigos dto
+     */
     public EnemigosDTO mapToEnemigosDTO(Enemigos enemigo) {
         EnemigosDTO enemigoDTO = new EnemigosDTO();
         enemigoDTO.setNombre(enemigo.getNombre());
@@ -92,6 +135,12 @@ public class Mapper {
         return enemigoDTO;
     }
 
+    /**
+     * Map to enemigo enemigos.
+     *
+     * @param enemigoDTO the enemigo dto
+     * @return the enemigos
+     */
     public Enemigos mapToEnemigo(EnemigosDTO enemigoDTO) {
         Enemigos enemigo = new Enemigos();
         enemigo.setNombre(enemigoDTO.getNombre());

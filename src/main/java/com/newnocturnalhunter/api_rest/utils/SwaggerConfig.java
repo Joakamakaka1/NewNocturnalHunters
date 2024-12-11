@@ -9,9 +9,16 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * The type Swagger config.
+ */
 @Configuration
 public class SwaggerConfig {
-
+    /**
+     * Define open api open api.
+     *
+     * @return the open api
+     */
     @Bean
     public OpenAPI defineOpenApi() {
         Server server = new Server();

@@ -7,19 +7,38 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Validator.
+ */
 @Component
 public class Validator {
+    /**
+     * Validate email boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
     public boolean validateEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return email.matches(emailRegex);
     }
 
-    // Método en Validator
+    /**
+     * Validate role boolean.
+     *
+     * @param rol the rol
+     * @return the boolean
+     */
     public boolean validateRole(String rol) {
         return "USER".equals(rol) || "ADMIN".equals(rol);
     }
 
-    // Validación de username
+    /**
+     * Validate username boolean.
+     *
+     * @param username the username
+     * @return the boolean
+     */
     public boolean validateUsername(String username) {
         if (username == null || username.isEmpty()) {
             return false;
@@ -27,7 +46,12 @@ public class Validator {
         return username.length() >= 3;
     }
 
-    // Validación de password
+    /**
+     * Validate password boolean.
+     *
+     * @param password the password
+     * @return the boolean
+     */
     public boolean validatePassword(String password) {
         if (password == null || password.isEmpty()) {
             return false;
@@ -35,7 +59,12 @@ public class Validator {
         return password.length() >= 6;
     }
 
-    // Validación de tipo Enemigo
+    /**
+     * Validate tipo enemigo boolean.
+     *
+     * @param tipo the tipo
+     * @return the boolean
+     */
     public boolean validateTipoEnemigo(Enemigos.TipoEnemigo tipo) {
         if (tipo == null) {
             return false;
@@ -45,7 +74,12 @@ public class Validator {
                 tipo == Enemigos.TipoEnemigo.Boss;
     }
 
-    // Validación de tipo Personaje
+    /**
+     * Validate tipo personaje boolean.
+     *
+     * @param tipo the tipo
+     * @return the boolean
+     */
     public boolean validateTipoPersonaje(Personajes.TipoPersonaje tipo) {
         if (tipo == null) {
             return false;
@@ -56,7 +90,12 @@ public class Validator {
                 tipo == Personajes.TipoPersonaje.Tanque;
     }
 
-    // Validación de fechas
+    /**
+     * Validate fecha boolean.
+     *
+     * @param fecha the fecha
+     * @return the boolean
+     */
     public boolean validateFecha(String fecha) {
         if (fecha == null || fecha.isEmpty()) {
             return false;

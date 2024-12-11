@@ -4,14 +4,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 /**
- * The type Personajes.
+ * The type Enemigos.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "personajes")
-public class Personajes {
+@Table(name = "enemigos")
+public class Enemigos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,31 +24,24 @@ public class Personajes {
     private double damage;
     private double velocidad;
     @Enumerated(EnumType.STRING)
-    private TipoPersonaje tipo;
+    private TipoEnemigo tipo;
     private String imagen;
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
 
     /**
-     * The enum Tipo personaje.
+     * The enum Tipo enemigo.
      */
-    public enum TipoPersonaje {
+    public enum TipoEnemigo {
         /**
-         * Espadachin tipo personaje.
+         * Basico tipo enemigo.
          */
-        Espadachin,
+        Basico,
         /**
-         * Disparador tipo personaje.
+         * Intermedio tipo enemigo.
          */
-        Disparador,
+        Intermedio,
         /**
-         * Mele tipo personaje.
+         * Boss tipo enemigo.
          */
-        Mele,
-        /**
-         * Tanque tipo personaje.
-         */
-        Tanque
+        Boss
     }
 }

@@ -7,11 +7,12 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
 
+/**
+ * The type Personajes dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class PersonajesDTO {
     private String nombre;
     private Integer vida;

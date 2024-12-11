@@ -10,6 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Authorization config.
+ */
 @Component
 public class AuthorizationConfig {
     @Autowired
@@ -17,7 +20,35 @@ public class AuthorizationConfig {
     @Autowired
     private StringToLong stringToLong;
 
-    public AuthorizationManager<RequestAuthorizationContext> getUsuarioByIdManager() {
+    private AuthorizationManager<RequestAuthorizationContext> createIdAuthorizationManager(String pathPrefix) {
+        return (authentication, object) -> {
+            Authentication auth = authentication.get();
+
+            boolean isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                return new AuthorizationDecision(true);
+            }
+
+            String path = object.getRequest().getRequestURI();
+            String idString = path.replaceAll("/" + pathPrefix + "/", "");
+            Long id = stringToLong.method(idString);
+
+            if (id == null) {
+                return new AuthorizationDecision(false);
+            }
+
+            return new AuthorizationDecision(true);
+        };
+    }
+
+    /**
+     * Gets usuario by username manager.
+     *
+     * @return the usuario by username manager
+     */
+    public AuthorizationManager<RequestAuthorizationContext> getUsuarioByUsernameManager() {
         return (authentication, object) -> {
             Authentication auth = authentication.get();
 
@@ -32,11 +63,10 @@ public class AuthorizationConfig {
             String username = path.replaceAll("/cliente/", "");
 
             Cliente cliente = null;
-
             try {
                 cliente = usuarioRepository.findByUsername(username).orElse(null);
             } catch (Exception e) {
-                throw new GenericException("error inesperado. " + e.getMessage());
+                throw new GenericException("Error inesperado: " + e.getMessage());
             }
 
             if (cliente == null) {
@@ -51,72 +81,30 @@ public class AuthorizationConfig {
         };
     }
 
+    /**
+     * Gets partidas id manager.
+     *
+     * @return the partidas id manager
+     */
     public AuthorizationManager<RequestAuthorizationContext> getPartidasIdManager() {
-        return (authentication, object) -> {
-            Authentication auth = authentication.get();
-
-            boolean isAdmin = auth.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                return new AuthorizationDecision(true);
-            }
-
-            String path = object.getRequest().getRequestURI();
-            String idPartida = path.replaceAll("/partidas/", "");
-            Long id  = stringToLong.method(idPartida);
-
-            if (id == null) {
-                return new AuthorizationDecision(false);
-            }
-
-            return new AuthorizationDecision(true);
-        };
+        return createIdAuthorizationManager("partidas");
     }
 
+    /**
+     * Gets personajes id manager.
+     *
+     * @return the personajes id manager
+     */
     public AuthorizationManager<RequestAuthorizationContext> getPersonajesIdManager() {
-        return (authentication, object) -> {
-            Authentication auth = authentication.get();
-
-            boolean isAdmin = auth.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                return new AuthorizationDecision(true);
-            }
-
-            String path = object.getRequest().getRequestURI();
-            String idPersonaje = path.replaceAll("/personajes/", "");
-            Long id  = stringToLong.method(idPersonaje);
-
-            if (id == null) {
-                return new AuthorizationDecision(false);
-            }
-
-            return new AuthorizationDecision(true);
-        };
+        return createIdAuthorizationManager("personajes");
     }
 
+    /**
+     * Gets enemigos id manager.
+     *
+     * @return the enemigos id manager
+     */
     public AuthorizationManager<RequestAuthorizationContext> getEnemigosIdManager() {
-        return (authentication, object) -> {
-            Authentication auth = authentication.get();
-
-            boolean isAdmin = auth.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                return new AuthorizationDecision(true);
-            }
-
-            String path = object.getRequest().getRequestURI();
-            String idEnemigo = path.replaceAll("/enemigos/", "");
-            Long id  = stringToLong.method(idEnemigo);
-
-            if (id == null) {
-                return new AuthorizationDecision(false);
-            }
-
-            return new AuthorizationDecision(true);
-        };
+        return createIdAuthorizationManager("enemigos");
     }
 }

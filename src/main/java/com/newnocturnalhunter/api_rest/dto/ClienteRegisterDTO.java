@@ -2,11 +2,12 @@ package com.newnocturnalhunter.api_rest.dto;
 
 import lombok.*;
 
+/**
+ * The type Cliente register dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class ClienteRegisterDTO {
     private String username;
     private String password1;

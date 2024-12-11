@@ -13,11 +13,20 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Token service.
+ */
 @Service
 public class TokenService {
     @Autowired
     private JwtEncoder jwtEncoder;
 
+    /**
+     * Generate token string.
+     *
+     * @param authentication the authentication
+     * @return the string
+     */
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
 

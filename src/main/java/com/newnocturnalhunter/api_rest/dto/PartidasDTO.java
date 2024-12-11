@@ -3,11 +3,12 @@ package com.newnocturnalhunter.api_rest.dto;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import lombok.*;
 
+/**
+ * The type Partidas dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class PartidasDTO {
     private String resultado;
     private String duracion;

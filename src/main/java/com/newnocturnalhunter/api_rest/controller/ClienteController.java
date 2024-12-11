@@ -1,11 +1,8 @@
 package com.newnocturnalhunter.api_rest.controller;
 
-import ch.qos.logback.core.net.server.Client;
 import com.newnocturnalhunter.api_rest.dto.ClienteDTO;
 import com.newnocturnalhunter.api_rest.dto.ClienteLoginDTO;
 import com.newnocturnalhunter.api_rest.dto.ClienteRegisterDTO;
-import com.newnocturnalhunter.api_rest.dto.EnemigosDTO;
-import com.newnocturnalhunter.api_rest.exceptions.*;
 import com.newnocturnalhunter.api_rest.service.ClienteService;
 import com.newnocturnalhunter.api_rest.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Cliente controller.
+ */
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -28,143 +28,77 @@ public class ClienteController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * Login string.
+     *
+     * @param clienteLoginDTO the cliente login dto
+     * @return the string
+     */
     @PostMapping("/login") // -> http://localhost:8080/cliente/login
     public String login(@RequestBody ClienteLoginDTO clienteLoginDTO) {
-        Authentication authentication = null;
-        try {
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(clienteLoginDTO.getUsername(), clienteLoginDTO.getPassword())
-            );
-        } catch (NotFoundException e) {
-            throw new NotFoundException("Credenciales del usuario incorrectas");
-        }
-
-        String token = ""; // Generamos el token
-        try {
-            token = tokenService.generateToken(authentication);
-        } catch (GenericException e) {
-            throw new GenericException("Error al generar el token de autenticación");
-
-        } catch (BadRequestException e) {
-            throw new BadRequestException(e.getMessage());
-        }
-
-        // Retornamos el token
-        return token;
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(clienteLoginDTO.getUsername(), clienteLoginDTO.getPassword())
+        );
+        return tokenService.generateToken(authentication); // Retornamos el token
     }
 
+    /**
+     * Register response entity.
+     *
+     * @param clienteRegisterDTO the cliente register dto
+     * @return the response entity
+     */
     @PostMapping("/register") // -> http://localhost:8080/cliente/register
     public ResponseEntity<?> register(@RequestBody ClienteRegisterDTO clienteRegisterDTO){
-        try {
-            clienteService.create(clienteRegisterDTO);
-            return new ResponseEntity<>(clienteRegisterDTO, HttpStatus.CREATED);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register");
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/register" );
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+        clienteService.create(clienteRegisterDTO);
+        return new ResponseEntity<>(clienteRegisterDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Get cliente response entity.
+     *
+     * @param username the username
+     * @return the response entity
+     */
     @GetMapping("/{username}") // -> http://localhost:8080/cliente/{username}
-    public ResponseEntity<?> getCliente(@PathVariable String username){
-        try {
-            ClienteDTO clienteDTO = clienteService.findByNombre(username);
-            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-        }catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<ClienteDTO> getCliente(@PathVariable String username){
+        ClienteDTO clienteDTO = clienteService.findByNombre(username);
+        return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
+    /**
+     * Gets all clientes.
+     *
+     * @return the all clientes
+     */
     @GetMapping("/") // -> http://localhost:8080/cliente/
-    public ResponseEntity<?> getAllClientes() {
-        try{
-            List<ClienteDTO> clientesDTO = clienteService.getAllClientes();
-            return new ResponseEntity<>(clientesDTO, HttpStatus.OK);
-        }catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        }catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        }catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/");
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<List<ClienteDTO>> getAllClientes() {
+        List<ClienteDTO> clientesDTO = clienteService.getAllClientes();
+        return new ResponseEntity<>(clientesDTO, HttpStatus.OK);
     }
 
+    /**
+     * Update response entity.
+     *
+     * @param username   the username
+     * @param clienteDTO the cliente dto
+     * @return the response entity
+     */
     @PutMapping("/{username}") // -> http://localhost:8080/cliente/{username}
-    public ResponseEntity<?> update(@PathVariable String username, @RequestBody ClienteDTO clienteDTO) {
-        try {
-            clienteService.update(username, clienteDTO);
-            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<ClienteDTO> update(@PathVariable String username, @RequestBody ClienteDTO clienteDTO) {
+        clienteService.update(username, clienteDTO);
+        return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
+    /**
+     * Delete response entity.
+     *
+     * @param username the username
+     * @return the response entity
+     */
     @DeleteMapping("/{username}") // -> http://localhost:8080/cliente/{username}
-    public ResponseEntity<?> delete(@PathVariable String username) {
-        try {
-            clienteService.delete(username);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/cliente/" + username);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<Void> delete(@PathVariable String username) {
+        clienteService.delete(username);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

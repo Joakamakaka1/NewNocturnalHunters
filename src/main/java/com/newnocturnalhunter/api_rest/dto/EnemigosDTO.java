@@ -5,11 +5,12 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
 
+/**
+ * The type Enemigos dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class EnemigosDTO {
     private String nombre;
     private Integer vida;

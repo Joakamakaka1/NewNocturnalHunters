@@ -1,7 +1,6 @@
 package com.newnocturnalhunter.api_rest.controller;
 
 import com.newnocturnalhunter.api_rest.dto.PersonajesDTO;
-import com.newnocturnalhunter.api_rest.exceptions.*;
 import com.newnocturnalhunter.api_rest.service.PersonajesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,124 +9,72 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Personajes controller.
+ */
 @RestController
 @RequestMapping("/personajes") // -> http://localhost:8080/personajes
 public class PersonajesController {
     @Autowired
     private PersonajesService personajesService;
 
+    /**
+     * Gets all personajes.
+     *
+     * @return the all personajes
+     */
     @GetMapping("/") // -> http://localhost:8080/personajes/
-    public ResponseEntity<?> getAllPersonajes() {
-        try{
-            List<PersonajesDTO> personajesDTO = personajesService.getAllPersonajes();
-            return new ResponseEntity<>(personajesDTO, HttpStatus.OK);
-        }catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        }catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        }catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<List<PersonajesDTO>> getAllPersonajes() {
+        List<PersonajesDTO> personajesDTO = personajesService.getAllPersonajes();
+        return new ResponseEntity<>(personajesDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/
-    public ResponseEntity<?> getPersonajeById(@PathVariable String idPersonaje) {
-        try{
-            PersonajesDTO personajeDTO = personajesService.getPersonajeById(idPersonaje);
-            return new ResponseEntity<>(personajeDTO, HttpStatus.OK);
-        }catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        }catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        }catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    /**
+     * Gets personaje by id.
+     *
+     * @param idPersonaje the id personaje
+     * @return the personaje by id
+     */
+    @GetMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/{idPersonaje}
+    public ResponseEntity<PersonajesDTO> getPersonajeById(@PathVariable String idPersonaje) {
+        PersonajesDTO personajeDTO = personajesService.getPersonajeById(idPersonaje);
+        return new ResponseEntity<>(personajeDTO, HttpStatus.OK);
     }
 
+    /**
+     * Create personaje response entity.
+     *
+     * @param personajeDTO the personaje dto
+     * @return the response entity
+     */
     @PostMapping("/") // -> http://localhost:8080/personajes/
-    public ResponseEntity<?> createPersonaje(@RequestBody PersonajesDTO personajeDTO) {
-        try {
-            personajesService.createPersonaje(personajeDTO);
-            return new ResponseEntity<>(personajeDTO, HttpStatus.CREATED);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/");
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<PersonajesDTO> createPersonaje(@RequestBody PersonajesDTO personajeDTO) {
+        personajesService.createPersonaje(personajeDTO);
+        return new ResponseEntity<>(personajeDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/
-    public ResponseEntity<?> updatePersonaje(@PathVariable String idPersonaje, @RequestBody PersonajesDTO personajeDTO) {
-        try {
-            personajesService.updatePersonaje(idPersonaje, personajeDTO);
-            return new ResponseEntity<>(personajeDTO, HttpStatus.OK);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    /**
+     * Update personaje response entity.
+     *
+     * @param idPersonaje  the id personaje
+     * @param personajeDTO the personaje dto
+     * @return the response entity
+     */
+    @PutMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/{idPersonaje}
+    public ResponseEntity<PersonajesDTO> updatePersonaje(@PathVariable String idPersonaje, @RequestBody PersonajesDTO personajeDTO) {
+        personajesService.updatePersonaje(idPersonaje, personajeDTO);
+        return new ResponseEntity<>(personajeDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/
-    public ResponseEntity<?> deletePersonaje(@PathVariable String idPersonaje) {
-        try {
-            personajesService.deletePersonaje(idPersonaje);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (BadRequestException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (GenericException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NotFoundException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (MethodNotAllowedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.METHOD_NOT_ALLOWED);
-        }catch (UnauthorizedException e) {
-            ErrorMsg error = new ErrorMsg(e.getMessage(), "/personajes/" + idPersonaje);
-            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-        }
+    /**
+     * Delete personaje response entity.
+     *
+     * @param idPersonaje the id personaje
+     * @return the response entity
+     */
+    @DeleteMapping("/{idPersonaje}") // -> http://localhost:8080/personajes/{idPersonaje}
+    public ResponseEntity<Void> deletePersonaje(@PathVariable String idPersonaje) {
+        personajesService.deletePersonaje(idPersonaje);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

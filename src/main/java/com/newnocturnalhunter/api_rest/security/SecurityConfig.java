@@ -32,6 +32,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
+/**
+ * The type Security config.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -41,18 +44,44 @@ public class SecurityConfig {
     private ClienteRepository usuarioRepository;
     @Autowired
     private AuthorizationConfig authorizationConfig;
+
+    /**
+     * Security filter chain security filter chain.
+     *
+     * @param http the http
+     * @return the security filter chain
+     * @throws Exception the exception
+     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { // TODO: Arreglar permisos de endpoints
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //Cliente Endpoints
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cliente/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
-                        .requestMatchers(HttpMethod.DELETE, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
-                        .requestMatchers(HttpMethod.PUT, "/cliente/{username}").access(authorizationConfig.getUsuarioByIdManager())
+                        .requestMatchers(HttpMethod.GET, "/cliente/{username}").access(authorizationConfig.getUsuarioByUsernameManager())
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{username}").access(authorizationConfig.getUsuarioByUsernameManager())
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{username}").access(authorizationConfig.getUsuarioByUsernameManager())
                         // Partidas Endpoints
+                        .requestMatchers(HttpMethod.GET, "/partidas/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/partidas/{id}").access(authorizationConfig.getPartidasIdManager())
+                        .requestMatchers(HttpMethod.DELETE, "/partidas/{id}").access(authorizationConfig.getPartidasIdManager())
+                        .requestMatchers(HttpMethod.PUT, "/partidas/{id}").access(authorizationConfig.getPartidasIdManager())
+                        .requestMatchers(HttpMethod.POST, "/partidas/").hasRole("ADMIN")
+                        // Personajes Endpoints
+                        .requestMatchers(HttpMethod.GET, "/personajes/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/personajes/{id}").access(authorizationConfig.getPersonajesIdManager())
+                        .requestMatchers(HttpMethod.DELETE, "/personajes/{id}").access(authorizationConfig.getPersonajesIdManager())
+                        .requestMatchers(HttpMethod.PUT, "/personajes/{id}").access(authorizationConfig.getPersonajesIdManager())
+                        .requestMatchers(HttpMethod.POST, "/personajes/").hasRole("ADMIN")
+                        // Enemigos Endpoints
+                        .requestMatchers(HttpMethod.GET, "/enemigos/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/enemigos/{id}").access(authorizationConfig.getEnemigosIdManager())
+                        .requestMatchers(HttpMethod.DELETE, "/enemigos/{id}").access(authorizationConfig.getEnemigosIdManager())
+                        .requestMatchers(HttpMethod.PUT, "/enemigos/{id}").access(authorizationConfig.getEnemigosIdManager())
+                        .requestMatchers(HttpMethod.POST, "/enemigos/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
