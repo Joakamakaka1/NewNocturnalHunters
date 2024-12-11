@@ -103,5 +103,4 @@ public class Mapper {
         enemigo.setSalud(enemigoDTO.getSalud());
         return enemigo;
     }
-
 }
