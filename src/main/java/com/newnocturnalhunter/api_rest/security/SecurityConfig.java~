@@ -57,7 +57,7 @@ public class SecurityConfig {
             try {
                 cliente = usuarioRepository.findByUsername(username).orElse(null);
             } catch (Exception e) {
-                throw new GenericException("error inesperado. " + e.getMessage());
+                throw new GenericException("error inesperado en la base de datos. " + e.getMessage());
             }
 
             if (cliente == null) {
