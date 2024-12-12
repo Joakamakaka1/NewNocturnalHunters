@@ -45,17 +45,14 @@ public class ClienteService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Cliente cliente = clienteRepository
                 .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario No encontrado"));
 
-        List<GrantedAuthority> authorities = Arrays.stream(cliente.getRol().split(","))
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.trim()))
-                .collect(Collectors.toList());
 
-        UserDetails userDetails = User // User pertenece a SpringSecurity
+        UserDetails userDetails = User
                 .builder()
                 .username(cliente.getUsername())
                 .password(cliente.getPassword())
-                .authorities(authorities)
+                .roles(cliente.getRol().split(","))
                 .build();
 
         return userDetails;
