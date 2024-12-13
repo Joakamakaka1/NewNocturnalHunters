@@ -27,7 +27,7 @@ public class Mapper {
         clienteDTO.setEmail(cliente.getEmail());
         clienteDTO.setUsername(cliente.getUsername());
         clienteDTO.setPassword(cliente.getPassword());
-        clienteDTO.setRoles(cliente.getRoles());
+        clienteDTO.setRol(cliente.getRol());
         return clienteDTO;
     }
 
@@ -43,7 +43,7 @@ public class Mapper {
         cliente.setEmail(clienteDTO.getEmail());
         cliente.setUsername(clienteDTO.getUsername());
         cliente.setPassword(clienteDTO.getPassword());
-        cliente.setRoles(clienteDTO.getRoles());
+        cliente.setRol(clienteDTO.getRol());
         return cliente;
     }
 

@@ -52,7 +52,7 @@ public class ClienteService implements UserDetailsService {
                 .builder()
                 .username(cliente.getUsername())
                 .password(cliente.getPassword())
-                .roles(cliente.getRol().split(","))
+                .roles(cliente.getRoles().split(","))
                 .build();
 
         return userDetails;
@@ -73,7 +73,7 @@ public class ClienteService implements UserDetailsService {
             throw new BadRequestException("Las contraseñas no coninciden");
         }
 
-        if (!validator.validateRole(clienteRegisterDTO.getRol())) {
+        if (!validator.validateRole(clienteRegisterDTO.getRoles())) {
             throw new BadRequestException("El rol tiene que ser USER o ADMIN");
         }
 
@@ -93,7 +93,7 @@ public class ClienteService implements UserDetailsService {
         cliente.setUsername(clienteRegisterDTO.getUsername());
         cliente.setPassword(passwordEncoder.encode(clienteRegisterDTO.getPassword1()));
         cliente.setEmail(clienteRegisterDTO.getEmail());
-        cliente.setRol(clienteRegisterDTO.getRol());
+        cliente.setRoles(clienteRegisterDTO.getRoles());
 
         clienteRepository.save(cliente);
         return clienteRegisterDTO;
@@ -141,7 +141,7 @@ public class ClienteService implements UserDetailsService {
             throw new BadRequestException("El username no puede estar vacío.");
         }
 
-        if (!validator.validateRole(clienteDTO.getRol())) {
+        if (!validator.validateRole(clienteDTO.getRoles())) {
             throw new BadRequestException("El rol tiene que ser USER o ADMIN");
         }
 
@@ -161,7 +161,7 @@ public class ClienteService implements UserDetailsService {
         cliente.setUsername(clienteDTO.getUsername());
         cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
         cliente.setEmail(clienteDTO.getEmail());
-        cliente.setRol(clienteDTO.getRol());
+        cliente.setRoles(clienteDTO.getRoles());
 
         clienteRepository.save(cliente);
         return mapper.mapToClienteDTO(cliente);

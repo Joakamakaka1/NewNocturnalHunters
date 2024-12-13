@@ -24,7 +24,7 @@ public class Cliente {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String rol;
+    private String roles;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Partidas> partidas;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)

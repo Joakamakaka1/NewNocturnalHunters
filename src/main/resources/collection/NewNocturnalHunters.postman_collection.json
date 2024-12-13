@@ -1,0 +1,578 @@
+{
+	"info": {
+		"_postman_id": "af1594b7-6ac3-40d1-bfa6-cc8a83512d48",
+		"name": "NewNocturnalHunters",
+		"description": "## **API REST newNocturnalHunter**\n\n## Requisitos\n\n- **Java 17** o superior.\n    \n- **Spring Boot** 2.7.x o superior.\n    \n- **JWT** para autenticación y autorización.\n    \n- **Hibernate** para la gestión de la persistencia.\n    \n- **MySQL/PostgreSQL** como sistema de base de datos.\n    \n- **Postman** o herramientas similares para probar la API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33984779"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "AllEnemigos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/enemigos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"enemigos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EnemigosID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/enemigos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"enemigos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PersonajesID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/personajes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personajes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllPersonajes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/personajes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personajes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllPartidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/partidas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"partidas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PartidasID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/partidas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"partidas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "PostEnemigos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"nombre\": \"Orco 2\",\r\n    \"vida\": 70,\r\n    \"salud\": 90,\r\n    \"damage\": 12.0,\r\n    \"velocidad\": 5.0,\r\n    \"tipo\": \"Intermedio\",\r\n    \"imagen\": \"https://as1.ftcdn.net/v2/jpg/05/69/75/36/1000_F_569753669_beRfsr3hVd9zgV9KHa5xzaV8Otj0PN9l.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/enemigos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"enemigos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostPersonajes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Espadachin 2\",\r\n    \"vida\": 90,\r\n    \"salud\": 110,\r\n    \"damage\": 22.0,\r\n    \"velocidad\": 8.0,\r\n    \"tipo\": \"Espadachin\",\r\n    \"imagen\": \"https://as1.ftcdn.net/v2/jpg/05/69/75/36/1000_F_569753669_beRfsr3hVd9zgV9KHa5xzaV8Otj0PN9l.jpg\",\r\n    \"id_cliente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/personajes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personajes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostPartidas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resultado\": \"victoria nueva\",\r\n    \"duracion\": \"00:50:00\",\r\n    \"fechaInicio\": \"2024-13-08 10:00:00\",\r\n    \"id_cliente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/partidas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"partidas",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "PutPersonaje",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Espadachin 2 editado\",\r\n    \"vida\": 90,\r\n    \"salud\": 110,\r\n    \"damage\": 22.0,\r\n    \"velocidad\": 8.0,\r\n    \"tipo\": \"Espadachin\",\r\n    \"imagen\": \"https://as1.ftcdn.net/v2/jpg/05/69/75/36/1000_F_569753669_beRfsr3hVd9zgV9KHa5xzaV8Otj0PN9l.jpg\",\r\n    \"id_cliente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/personajes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personajes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutEnemigo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"nombre\": \"Orco 2 editado\",\r\n    \"vida\": 70,\r\n    \"salud\": 90,\r\n    \"damage\": 12.0,\r\n    \"velocidad\": 5.0,\r\n    \"tipo\": \"Intermedio\",\r\n    \"imagen\": \"https://as1.ftcdn.net/v2/jpg/05/69/75/36/1000_F_569753669_beRfsr3hVd9zgV9KHa5xzaV8Otj0PN9l.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/enemigos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"enemigos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutPartida",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resultado\": \"victoria editada\",\r\n    \"duracion\": \"00:50:00\",\r\n    \"fechaInicio\": \"2024-13-08 10:00:00\",\r\n    \"id_cliente\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/partidas/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"partidas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "DeleteEnemigo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/enemigos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"enemigos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePersonaje",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/personajes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"personajes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/partidas/2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/partidas/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"partidas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Mateo2ee\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"mateo2@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cliente/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Mateo\",\r\n    \"password1\": \"admin123\",\r\n    \"password2\": \"admin123\",\r\n    \"email\": \"mateo2@gmail.com\",\r\n    \"roles\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cliente/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cliente/Mateo2ee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								"Mateo2ee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllClientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cliente/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cliente/Mateo2ee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								"Mateo2ee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutCliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"username\": \"Mateo2ee\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"mateo@gmail.com\",\r\n    \"roles\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cliente/Mateo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cliente",
+								"Mateo"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiTWF0ZW8yZWUiLCJleHAiOjE3MzQwMjMzMjksImlhdCI6MTczNDAxOTcyOSwicm9sZXMiOlsiUk9MRV9VU0VSIl19.GwBEv_9exGOPXpFlX72Ar9WJpHRMH4bQg3T_TebEov4AeqK15QxglSVDVQpnZgM_K5sHtv1r0_1pgTQglmQsS6iLv66S2waxp7L6y22rTGTXxWsZNsnx1YYlha7w24N8CsxCCuR2V4JhOiiTYiEe6mKgGLcpH9CHgO_VX-oCZchWS4GTNcI1GtMwGBaevLZMkT17nl0yxecGyQEsCo3MIbd21Th8TwWyL9ginSVRYHaeYD9EO7W3lozMyiQedRctYm5BIEW0O8H-ifsT3JQZBF-tOtXQB02T-Um-VK6krOyJ1Bi-gU5WvOiPnSrobuzVIT1N56-7vtXby58DipXOlw",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
