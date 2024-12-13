@@ -1,8 +1,11 @@
 package com.newnocturnalhunter.api_rest.utils;
 
 import com.newnocturnalhunter.api_rest.exceptions.GenericException;
+import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
+import com.newnocturnalhunter.api_rest.model.Partidas;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
+import com.newnocturnalhunter.api_rest.repository.PartidasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -16,40 +19,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizationConfig { // Clase que maneja las autorizaciones de la API REST
     @Autowired
-    private ClienteRepository usuarioRepository;
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private PartidasRepository partidasRepository;
     @Autowired
     private StringToLong stringToLong;
-
-    // Metodos que crean un AuthorizationManager
-    // que verifica si el usuario es admin o el id de la entidad coincide con el id del usuario autenticado
-    private AuthorizationManager<RequestAuthorizationContext> createIdAuthorizationManager(String pathPrefix) {
-        return (authentication, object) -> {
-            Authentication auth = authentication.get();
-
-            boolean isAdmin = auth.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (isAdmin) {
-                return new AuthorizationDecision(true);
-            }
-
-            String path = object.getRequest().getRequestURI();
-            String idString = path.replaceAll("/" + pathPrefix + "/", "");
-            Long id = stringToLong.method(idString);
-
-            if (id == null) {
-                return new AuthorizationDecision(false);
-            }
-
-            return new AuthorizationDecision(true);
-        };
-    }
 
     /**
      * Gets usuario by username manager.
      *
      * @return the usuario by username manager
      */
+
+    // Metodos que crean un AuthorizationManager
+    // que verifica si el usuario es admin o el id de la entidad coincide con el id del usuario autenticado
     public AuthorizationManager<RequestAuthorizationContext> getUsuarioByUsernameManager() {
         return (authentication, object) -> {
             Authentication auth = authentication.get();
@@ -66,7 +49,7 @@ public class AuthorizationConfig { // Clase que maneja las autorizaciones de la 
 
             Cliente cliente = null;
             try {
-                cliente = usuarioRepository.findByUsername(username).orElse(null);
+                cliente = clienteRepository.findByUsername(username).orElse(null);
             } catch (Exception e) {
                 throw new GenericException("Error inesperado: " + e.getMessage());
             }
@@ -89,24 +72,47 @@ public class AuthorizationConfig { // Clase que maneja las autorizaciones de la 
      * @return the partidas id manager
      */
     public AuthorizationManager<RequestAuthorizationContext> getPartidasIdManager() {
-        return createIdAuthorizationManager("partidas");
-    }
+        return (authentication, object) -> {
+            Authentication auth = authentication.get();
 
-    /**
-     * Gets personajes id manager.
-     *
-     * @return the personajes id manager
-     */
-    public AuthorizationManager<RequestAuthorizationContext> getPersonajesIdManager() {
-        return createIdAuthorizationManager("personajes");
-    }
+            boolean isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
 
-    /**
-     * Gets enemigos id manager.
-     *
-     * @return the enemigos id manager
-     */
-    public AuthorizationManager<RequestAuthorizationContext> getEnemigosIdManager() {
-        return createIdAuthorizationManager("enemigos");
+            if (isAdmin) {
+                return new AuthorizationDecision(true);
+            }
+
+            String path = object.getRequest().getRequestURI();
+            String idString = path.replaceAll("/partidas/", "");
+            Long id = stringToLong.method(idString);
+
+            if(id == null) {
+                return new AuthorizationDecision(false);
+            }
+
+            Partidas partida = null;
+            try {
+                partida = partidasRepository.findById(id).orElse(null);
+            } catch (Exception e) {
+                throw new GenericException("Error inesperado: " + e.getMessage());
+            }
+
+            if (partida == null) {
+                return new AuthorizationDecision(false);
+            }
+
+            String username = auth.getName();
+            Cliente cliente = clienteRepository.findByUsername(username).orElse(null);
+
+            if (cliente == null) {
+                return new AuthorizationDecision(false);
+            }
+
+            if (!partida.getCliente().getId().equals(cliente.getId())) {
+                return new AuthorizationDecision(false);
+            }
+
+            return new AuthorizationDecision(true);
+        };
     }
 }
