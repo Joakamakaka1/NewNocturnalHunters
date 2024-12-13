@@ -37,7 +37,7 @@ import org.springframework.security.web.access.intercept.RequestAuthorizationCon
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig { // Clase que configura la seguridad de la aplicación
     @Autowired
     private RsaKeyProperties rsaKeys;
     @Autowired
@@ -53,11 +53,12 @@ public class SecurityConfig {
      * @throws Exception the exception
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { // TODO: Arreglar permisos de endpoints
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { // Método que configura la seguridad de la aplicación
         return http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Desactiva la protección CSRF para evitar ataques CSRF (cross-site request forgery)
                 .authorizeHttpRequests(auth -> auth
-                        //Cliente Endpoints
+                        // Configuración de autenticación y autorización de solicitudes:
+                        // Cliente Endpoints
                         .requestMatchers(HttpMethod.POST, "/cliente/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cliente/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/").hasRole("ADMIN")
@@ -84,6 +85,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/enemigos/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                // Configuración de la autenticación con JWT
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
@@ -96,7 +98,7 @@ public class SecurityConfig {
      * @return the password encoder
      */
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() { // Método que configura la codificación de contraseñas
         return new BCryptPasswordEncoder();
     }
 
@@ -108,7 +110,7 @@ public class SecurityConfig {
      * @throws Exception the exception
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception { // Método que configura la autenticación
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -118,7 +120,7 @@ public class SecurityConfig {
      * @return the jwt decoder
      */
     @Bean
-    public JwtDecoder jwtDecoder() {
+    public JwtDecoder jwtDecoder() { // Método que configura el decodificador de JWT
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
 
@@ -128,7 +130,7 @@ public class SecurityConfig {
      * @return the jwt encoder
      */
     @Bean
-    public JwtEncoder jwtEncoder() {
+    public JwtEncoder jwtEncoder() { // Método que configura el codificador de JWT
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 

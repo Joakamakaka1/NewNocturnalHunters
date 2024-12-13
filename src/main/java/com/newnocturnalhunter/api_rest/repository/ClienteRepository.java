@@ -17,6 +17,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
      * @param username the username
      * @return the optional
      */
-    Optional<Cliente> findByUsername(String username);
-    // void deleteByUsername(String username);
+    Optional<Cliente> findByUsername(String username); // -> SELECT * FROM clientes WHERE username = ? LIMIT 1
 }

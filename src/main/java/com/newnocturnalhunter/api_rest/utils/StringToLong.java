@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
  * The type String to long.
  */
 @Component
-public class StringToLong {
+public class StringToLong { // Clase que convierte un String a Long
     /**
      * Method long.
      *

@@ -61,6 +61,7 @@ public class PersonajesService {
 
         Personajes personaje = personajesRepository.findById(stringToLong.method(id))
                 .orElseThrow(() -> new NotFoundException("El personaje con el ID proporcionado no existe."));
+
         return mapper.mapToPersonajesDTO(personaje);
     }
 
@@ -71,6 +72,7 @@ public class PersonajesService {
      * @return the personajes dto
      */
     public PersonajesDTO createPersonaje(PersonajesDTO personajesDTO) {
+        // Validaciones
         if (personajesDTO == null) {
             throw new BadRequestException("El personaje no puede estar vacío.");
         }
@@ -79,10 +81,12 @@ public class PersonajesService {
             throw new BadRequestException("El tipo de personaje no es válido.");
         }
 
+        // Busca el cliente en la base de datos
         Cliente cliente = clienteRepository.findById(personajesDTO.getId_cliente())
                 .orElseThrow(() -> new NotFoundException("El cliente asociado al personaje no existe."));
 
-        Personajes personaje = mapper.mapToPersonaje(personajesDTO, cliente);
+        // Crea el personaje en la base de datos
+        Personajes personaje = mapper.mapToPersonaje(personajesDTO, cliente); // Mapea el personajeDTO a personaje usando el mapper y el cliente asociado
         personajesRepository.save(personaje);
         return mapper.mapToPersonajesDTO(personaje);
     }
@@ -95,6 +99,7 @@ public class PersonajesService {
      * @return the personajes dto
      */
     public PersonajesDTO updatePersonaje(String id, PersonajesDTO personajesDTO) {
+        // Validaciones
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new BadRequestException("El ID no puede estar vacío.");
         }
@@ -107,13 +112,16 @@ public class PersonajesService {
             throw new BadRequestException("El tipo de personaje no es válido.");
         }
 
+        // Busca el cliente en la base de datos
         Cliente cliente = clienteRepository.findById(personajesDTO.getId_cliente())
                 .orElseThrow(() -> new NotFoundException("El cliente asociado al personaje no existe."));
 
+        // Actualiza el personaje existente en la base de datos
         Personajes personajeExistente = personajesRepository.findById(stringToLong.method(id))
                 .orElseThrow(() -> new NotFoundException("El personaje con el ID proporcionado no existe."));
 
-        Personajes personaje = mapper.mapToPersonaje(personajesDTO, cliente);
+        // Crea el personaje en la base de datos
+        Personajes personaje = mapper.mapToPersonaje(personajesDTO, cliente); // Mapea el personajeDTO a personaje usando el mapper y el cliente asociado
         personaje.setId(personajeExistente.getId());
         personajesRepository.save(personaje);
         return mapper.mapToPersonajesDTO(personaje);

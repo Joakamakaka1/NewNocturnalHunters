@@ -13,7 +13,7 @@ import java.util.List;
  * The type Swagger config.
  */
 @Configuration
-public class SwaggerConfig {
+public class SwaggerConfig { // Clase que configura la documentación de la API REST usando Swagger
     /**
      * Define open api open api.
      *

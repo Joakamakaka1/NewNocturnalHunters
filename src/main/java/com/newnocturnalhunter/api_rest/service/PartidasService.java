@@ -43,8 +43,8 @@ public class PartidasService {
             throw new NotFoundException("No hay partidas registradas.");
         }
 
-        List<PartidasDTO> partidasDTO = new ArrayList<>();
-        partidas.forEach(partida -> partidasDTO.add(mapper.mapToPartidasDTO(partida)));
+        List<PartidasDTO> partidasDTO = new ArrayList<>(); // Crea una lista vacia
+        partidas.forEach(partida -> partidasDTO.add(mapper.mapToPartidasDTO(partida))); // Recorre la lista de partidas y las agrega a la lista
         return partidasDTO;
     }
 
@@ -61,6 +61,7 @@ public class PartidasService {
 
         Partidas partida = partidasRepository.findById(stringToLong.method(id))
                 .orElseThrow(() -> new NotFoundException("La partida con el ID proporcionado no existe."));
+
         return mapper.mapToPartidasDTO(partida);
     }
 
@@ -71,6 +72,7 @@ public class PartidasService {
      * @return the partidas dto
      */
     public PartidasDTO createPartida(PartidasDTO partidasDTO) {
+        // Validaciones
         if (partidasDTO == null) {
             throw new BadRequestException("La partida no puede estar vacía.");
         }
@@ -79,10 +81,12 @@ public class PartidasService {
             throw new BadRequestException("La fecha de inicio no tiene un formato válido. El formato debe ser yyyy-MM-dd HH:mm:ss");
         }
 
+        // Busca el cliente en la base de datos
         Cliente cliente = clienteRepository.findById(partidasDTO.getId_cliente())
                 .orElseThrow(() -> new NotFoundException("El cliente asociado no existe."));
 
-        Partidas partida = mapper.mapToPartidas(partidasDTO, cliente);
+        // Crea la partida en la base de datos
+        Partidas partida = mapper.mapToPartidas(partidasDTO, cliente); // Mapea la partidaDTO a partida usando el mapper y el cliente asociado
         partidasRepository.save(partida);
         return mapper.mapToPartidasDTO(partida);
     }
@@ -95,6 +99,7 @@ public class PartidasService {
      * @return the partidas dto
      */
     public PartidasDTO updatePartida(String id, PartidasDTO partidasDTO) {
+        // Validaciones
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new BadRequestException("El ID no puede estar vacío.");
         }
@@ -107,13 +112,16 @@ public class PartidasService {
             throw new BadRequestException("La fecha de inicio no tiene un formato válido. El formato debe ser yyyy-MM-dd HH:mm:ss");
         }
 
+        // Busca el cliente en la base de datos
         Cliente cliente = clienteRepository.findById(partidasDTO.getId_cliente())
                 .orElseThrow(() -> new NotFoundException("El cliente asociado no existe."));
 
+        // Actualiza la partida existente en la base de datos
         Partidas partidaExistente = partidasRepository.findById(stringToLong.method(id))
                 .orElseThrow(() -> new NotFoundException("La partida con el ID proporcionado no existe."));
 
-        Partidas partida = mapper.mapToPartidas(partidasDTO, cliente);
+        // Crea la partida en la base de datos
+        Partidas partida = mapper.mapToPartidas(partidasDTO, cliente); // Mapea la partidaDTO a partida usando el mapper y el cliente asociado
         partida.setId(partidaExistente.getId());
         partidasRepository.save(partida);
         return mapper.mapToPartidasDTO(partida);

@@ -46,7 +46,7 @@ public class TokenService {
                 .claim("roles", roles)
                 .build();
 
-        // Retornamos el token generado por el encoder de JWT
+        // Retornamos el token
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 }

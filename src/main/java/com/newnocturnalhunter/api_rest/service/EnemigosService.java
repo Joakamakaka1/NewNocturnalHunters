@@ -70,6 +70,7 @@ public class EnemigosService {
      * @return the enemigos dto
      */
     public EnemigosDTO createEnemigo(EnemigosDTO enemigosDTO) {
+        // Validaciones
         if (enemigosDTO == null) {
             throw new BadRequestException("El enemigo no puede estar vacío.");
         }
@@ -78,6 +79,7 @@ public class EnemigosService {
             throw new BadRequestException("El tipo de enemigo no es válido.");
         }
 
+        // Crea el enemigo
         Enemigos enemigo = mapper.mapToEnemigo(enemigosDTO);
         enemigosRepository.save(enemigo);
         return mapper.mapToEnemigosDTO(enemigo);
@@ -91,6 +93,7 @@ public class EnemigosService {
      * @return the enemigos dto
      */
     public EnemigosDTO updateEnemigo(String id, EnemigosDTO enemigosDTO) {
+        // Validaciones
         if (id == null || id.isEmpty() || id.isBlank()) {
             throw new BadRequestException("El ID no puede estar vacío.");
         }
@@ -103,6 +106,7 @@ public class EnemigosService {
             throw new BadRequestException("El tipo de enemigo no es válido.");
         }
 
+        // Actualiza el enemigo existente en la base de datos
         Enemigos enemigoExistente = enemigosRepository.findById(stringToLong.method(id))
                 .orElseThrow(() -> new NotFoundException("El enemigo con el ID proporcionado no existe."));
 

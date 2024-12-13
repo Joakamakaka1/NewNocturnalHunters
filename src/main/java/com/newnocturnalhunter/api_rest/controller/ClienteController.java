@@ -36,6 +36,7 @@ public class ClienteController {
      */
     @PostMapping("/login") // -> http://localhost:8080/cliente/login
     public String login(@RequestBody ClienteLoginDTO clienteLoginDTO) {
+        // Autenticamos al usuario con sus credenciales de inicio de sesión (Username y Password)
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(clienteLoginDTO.getUsername(), clienteLoginDTO.getPassword())
         );

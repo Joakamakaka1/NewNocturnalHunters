@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * The type Mapper.
  */
 @Component
-public class Mapper {
+public class Mapper { // Clase que maneja el mapeo de los objetos
     /**
      * Map to cliente dto cliente dto.
      *

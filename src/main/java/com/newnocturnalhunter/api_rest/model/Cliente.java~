@@ -25,8 +25,8 @@ public class Cliente {
     private String password;
     @Column(nullable = false)
     private String roles;
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true) // Para que se borren las partidas asociadas al cliente
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Partidas> partidas;
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true) // Para que se borren las part asociadas al cliente
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Personajes> personajes;
 }

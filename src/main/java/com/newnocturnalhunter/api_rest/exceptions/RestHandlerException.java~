@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * The type Rest handler exception.
  */
 @ControllerAdvice
-public class RestHandlerException { // Clase que maneja las excepciones de la API REST
+public class RestHandlerException {
     /**
      * Not found exception error msg.
      *

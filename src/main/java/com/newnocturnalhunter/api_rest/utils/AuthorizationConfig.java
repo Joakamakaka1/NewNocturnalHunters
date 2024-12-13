@@ -14,12 +14,14 @@ import org.springframework.stereotype.Component;
  * The type Authorization config.
  */
 @Component
-public class AuthorizationConfig {
+public class AuthorizationConfig { // Clase que maneja las autorizaciones de la API REST
     @Autowired
     private ClienteRepository usuarioRepository;
     @Autowired
     private StringToLong stringToLong;
 
+    // Metodos que crean un AuthorizationManager
+    // que verifica si el usuario es admin o el id de la entidad coincide con el id del usuario autenticado
     private AuthorizationManager<RequestAuthorizationContext> createIdAuthorizationManager(String pathPrefix) {
         return (authentication, object) -> {
             Authentication auth = authentication.get();
