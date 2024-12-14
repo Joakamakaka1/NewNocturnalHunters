@@ -84,7 +84,7 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 | Método | Endpoint               | Descripción                                                  |
 |--------|------------------------|--------------------------------------------------------------|
-| **POST** | /partidas              | Crea una nueva partida. Requiere los detalles de la partida y el ID del cliente. Solo accesible para administradores. |
+| **POST** | /partidas              | Crea una nueva partida. Solo accesible para administradores. |
 | **GET**  | /partidas              | Recupera todas las partidas jugadas. Solo accesible para administradores. |
 | **GET**  | /partidas/{clienteId}  | Obtiene todas las partidas asociadas a un cliente específico. |
 | **PUT**  | /partidas/{id}         | Actualiza los detalles de una partida. Solo accesible por administradores. |
@@ -94,7 +94,7 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 | Método | Endpoint               | Descripción                                                  |
 |--------|------------------------|--------------------------------------------------------------|
-| **POST** | /personajes            | Crea un nuevo personaje. Requiere los detalles del personaje y el ID del cliente. |
+| **POST** | /personajes            | Crea un nuevo personaje. Solo accesible para administradores. |
 | **GET**  | /personajes            | Obtiene todos los personajes registrados. Accesible para todos los usuarios. |
 | **GET**  | /personajes/{id}       | Obtiene los detalles de un personaje específico por su ID. Accesible para todos los usuarios. |
 | **PUT**  | /personajes/{id}       | Actualiza los detalles de un personaje. Solo accesible por administradores. |

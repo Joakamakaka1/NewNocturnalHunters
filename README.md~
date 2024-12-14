@@ -94,7 +94,7 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 | Método | Endpoint               | Descripción                                                  |
 |--------|------------------------|--------------------------------------------------------------|
-| **POST** | /personajes            | Crea un nuevo personaje. Requiere los detalles del personaje y el ID del cliente. |
+| **POST** | /personajes            | Crea un nuevo personaje. Solo accesible para administradores. |
 | **GET**  | /personajes            | Obtiene todos los personajes registrados. Accesible para todos los usuarios. |
 | **GET**  | /personajes/{id}       | Obtiene los detalles de un personaje específico por su ID. Accesible para todos los usuarios. |
 | **PUT**  | /personajes/{id}       | Actualiza los detalles de un personaje. Solo accesible por administradores. |
@@ -124,17 +124,15 @@ La lógica de negocio está centrada en los siguientes aspectos clave:
 
 - **Validaciones en los campos**: Los campos de la API se validan para asegurarse de que contengan datos válidos y no sean nulos. Estas validaciones garantizan la integridad de los datos almacenados en la base de datos.
 
-## Validaciones de Campos
-
 | Excepción          | Descripción | Validación                                                                                                                                                            |
 |--------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Email**          | Correo electrónico del usuario.         | Utiliza una expresión regular para verificar que el email tenga el formato válido: `^[A-Za-z0-9+_.-]+@(.+)$`.                                                                                                     |
+| **Email**          | Correo electrónico del usuario.         | Utiliza una expresión regular para verificar que el email tenga el formato válido: `^[A-Za-z0-9+_.-]+@(.+)$`.                                                                                                   |
 | **Role**           | Rol del usuario (puede ser "USER" o "ADMIN").         | El valor debe ser "USER" o "ADMIN".                                                                                            |
 | **Username**       | Nombre de usuario.         | El nombre de usuario debe tener al menos 3 caracteres y no puede ser nulo o vacío.                                                                            |
 | **Password**       | Contraseña del usuario.         | La contraseña debe tener al menos 6 caracteres y no puede ser nula o vacía.                                                                                 |
 | **Tipo Enemigo**   | Tipo del enemigo (Basico, Intermedio, Boss)         | El valor debe ser uno de los siguientes tipos: `Basico`, `Intermedio` o `Boss` de la enumeración `TipoEnemigo`.                                          |
 | **Tipo Personaje** | Tipo del personaje (Espadachín, Disparador, Melee, Tanque).         | El valor debe ser uno de los siguientes tipos: `Espadachin`, `Disparador`, `Mele` o `Tanque` de la enumeración `TipoPersonaje`. |
-| **Fecha**          | Fecha en formato `yyyy-MM-dd HH:mm:ss`.         | Cuando ocurre un error inesperado en el servidor, como problemas con la base de datos o un fallo no manejado.                                                         |
+| **Fecha**          | Fecha en formato `yyyy-MM-dd HH:mm:ss`.         | La fecha debe cumplir con el formato `\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}`, que representa una fecha y hora válidas.                                                         |
 ---
 
 ## Excepciones y Códigos de Estado
