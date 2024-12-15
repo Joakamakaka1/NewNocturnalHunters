@@ -18,4 +18,12 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
      * @return the optional
      */
     Optional<Cliente> findByUsername(String username); // -> SELECT * FROM clientes WHERE username = ? LIMIT 1
+
+    /**
+     * Find by email optional.
+     *
+     * @param email the email
+     * @return the optional
+     */
+    Optional<Cliente> findByEmail(String email); // -> SELECT * FROM clientes WHERE email = ? LIMIT 1
 }

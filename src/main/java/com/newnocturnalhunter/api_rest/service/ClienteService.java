@@ -67,6 +67,10 @@ public class ClienteService implements UserDetailsService { // UserDetailsServic
      */
     public ClienteRegisterDTO create(ClienteRegisterDTO clienteRegisterDTO) {
         // Validaciones
+        if (clienteRepository.findByEmail(clienteRegisterDTO.getEmail()).isPresent()) {
+            throw new DuplicateException("El email ya existe");
+        }
+
         if (clienteRepository.findByUsername(clienteRegisterDTO.getUsername()).isPresent()) {
             throw new DuplicateException("El usuario ya existe");
         }
@@ -141,6 +145,10 @@ public class ClienteService implements UserDetailsService { // UserDetailsServic
      */
     public ClienteDTO update(String username, ClienteDTO clienteDTO) {
         // Validaciones
+        if (clienteRepository.findByEmail(clienteDTO.getEmail()).isPresent()) {
+            throw new DuplicateException("El email ya existe");
+        }
+
         if (!validator.validateUsername(username)) {
             throw new BadRequestException("El username no puede estar vacío.");
         }
