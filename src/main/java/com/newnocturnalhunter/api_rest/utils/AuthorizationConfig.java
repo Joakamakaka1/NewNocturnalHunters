@@ -5,6 +5,7 @@ import com.newnocturnalhunter.api_rest.exceptions.NotFoundException;
 import com.newnocturnalhunter.api_rest.model.Cliente;
 import com.newnocturnalhunter.api_rest.model.Partidas;
 import com.newnocturnalhunter.api_rest.repository.ClienteRepository;
+import com.newnocturnalhunter.api_rest.repository.EnemigosRepository;
 import com.newnocturnalhunter.api_rest.repository.PartidasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -24,6 +25,8 @@ public class AuthorizationConfig { // Clase que maneja las autorizaciones de la 
     private PartidasRepository partidasRepository;
     @Autowired
     private StringToLong stringToLong;
+    @Autowired
+    private EnemigosRepository enemigosRepository;
 
     /**
      * Gets usuario by username manager.

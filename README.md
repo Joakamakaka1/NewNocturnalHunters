@@ -145,10 +145,7 @@ A continuación, se detallan las excepciones que maneja la API y sus correspondi
 |------------------------|------------------|-------------------------------------------------------|
 | **NotFoundException**   | 404              | Cuando un recurso solicitado no se encuentra en la base de datos. |
 | **BadRequestException** | 400              | Cuando la solicitud tiene datos incorrectos o falta información necesaria. |
-| **ForbiddenException**  | 403              | Cuando un cliente intenta acceder a un recurso que no tiene permisos para ver o modificar. |
 | **DuplicateException**  | 409              | Cuando se intenta crear un recurso con datos duplicados, como un email ya registrado. |
-| **UnauthorizedException** | 401            | Cuando un cliente o administrador intenta acceder a un recurso sin un token de autenticación válido o con un token expirado. |
-| **MethodNotAllowedException** | 405         | Cuando un cliente o administrador intenta acceder a un endpoint utilizando un método HTTP incorrecto, por ejemplo, un `GET` cuando el endpoint solo acepta un `POST`. |
 | **InternalServerErrorException** | 500       | Cuando ocurre un error inesperado en el servidor, como problemas con la base de datos o un fallo no manejado. |
 
 ---

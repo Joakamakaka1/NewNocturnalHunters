@@ -84,7 +84,7 @@ A continuación, se detallan los endpoints para cada tabla de la base de datos:
 
 | Método | Endpoint               | Descripción                                                  |
 |--------|------------------------|--------------------------------------------------------------|
-| **POST** | /partidas              | Crea una nueva partida. Requiere los detalles de la partida y el ID del cliente. Solo accesible para administradores. |
+| **POST** | /partidas              | Crea una nueva partida. Solo accesible para administradores. |
 | **GET**  | /partidas              | Recupera todas las partidas jugadas. Solo accesible para administradores. |
 | **GET**  | /partidas/{clienteId}  | Obtiene todas las partidas asociadas a un cliente específico. |
 | **PUT**  | /partidas/{id}         | Actualiza los detalles de una partida. Solo accesible por administradores. |

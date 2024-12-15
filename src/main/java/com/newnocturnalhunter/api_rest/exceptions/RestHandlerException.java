@@ -41,34 +41,6 @@ public class RestHandlerException { // Clase que maneja las excepciones de la AP
     }
 
     /**
-     * Unauthorized exception error msg.
-     *
-     * @param req the req
-     * @param ex  the ex
-     * @return the error msg
-     */
-    @ExceptionHandler(UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ResponseBody
-    public ErrorMsg unauthorizedException(HttpServletRequest req, UnauthorizedException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
-
-    /**
-     * Forbidden exception error msg.
-     *
-     * @param req the req
-     * @param ex  the ex
-     * @return the error msg
-     */
-    @ExceptionHandler(ForbiddenException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public ErrorMsg forbiddenException(HttpServletRequest req, ForbiddenException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
-
-    /**
      * Duplicate exception error msg.
      *
      * @param req the req
@@ -82,19 +54,6 @@ public class RestHandlerException { // Clase que maneja las excepciones de la AP
         return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
     }
 
-    /**
-     * Method not allowed exception error msg.
-     *
-     * @param req the req
-     * @param ex  the ex
-     * @return the error msg
-     */
-    @ExceptionHandler(MethodNotAllowedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    @ResponseBody
-    public ErrorMsg methodNotAllowedException(HttpServletRequest req, MethodNotAllowedException ex) {
-        return new ErrorMsg(ex.getMessage(), req.getRequestURL().toString());
-    }
 
     /**
      * Validation exception error msg.
